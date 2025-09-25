@@ -5,11 +5,16 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+# THIS IS THE NEW DEBUGGING CODE
+@app.before_request
+def log_request_info():
+    print(f"Headers: {request.headers}")
+    print(f"Request Path: {request.path}") # <-- This will tell us the exact path
+
 @app.route('/api/test')
 def test_route():
+    print("MATCHED /api/test route!") # <-- Add a print here too
     return jsonify({"message": "Minimal deployment successful!"})
-
-
 
 
 
