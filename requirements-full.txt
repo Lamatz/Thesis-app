@@ -1,0 +1,15 @@
+Flask
+Flask-Cors
+geopandas
+numpy
+openmeteo-requests
+pandas
+pyproj
+rasterio
+requests
+requests-cache
+retry-requests
+shapely
+scikit-learn
+google-genai
+python-dotenv
