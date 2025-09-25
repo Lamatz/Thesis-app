@@ -127,6 +127,9 @@ def get_slope(lon, lat):
         print(f"Error during slope extraction: {e}")
         return "Error during processing"
 
+@app.route("/")
+def index():
+    return "Hello World"
 
 # Get location data (slope & soil type)
 @app.route("/get_location_data", methods=["GET"])
