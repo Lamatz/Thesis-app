@@ -1,0 +1,126 @@
+#map { 
+    height: 500px; 
+    width: 100%;
+ }
+        
+.title { 
+    font-size: 24px; 
+    font-weight: bold; 
+    text-align: center; 
+    color: red; 
+    padding-top: 5px;
+}
+.search-container svg { 
+    margin-left: 94%;
+    right: 15px; 
+    top: 50%; 
+    transform: translateY(-170%);
+    width: 20px;
+    height: 20px;
+    fill: gray; 
+} 
+.hand-icon { 
+    cursor: pointer; 
+}
+        
+.info-box {
+    background-color: #fdeee8; 
+    padding: 15px; 
+    border-radius: 10px; 
+}
+.custom-input {
+    background-color: #fff; 
+    border: 2px solid #d4a373; 
+    border-radius: 10px; 
+    text-align: center;
+    width: 80px;
+    height: 40px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+.inputs{
+    background-color: #FFF; 
+    border: 2px solid #d4a373; 
+    border-radius: 10px; 
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+.suggestions-container {
+    position: absolute;
+    background: white;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1100; /* Higher than map zoom buttons */
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Ensure the dropdown appears above map controls */
+.leaflet-control {
+    z-index: 1000; /* Lower than suggestions container */
+}
+
+/* Position dropdown under search box */
+.search-container {
+    position: relative;
+}
+
+.search-container .suggestions-container {
+    top: 100%;
+    left: 0;
+    width: 100%;
+}
+
+
+.suggestion-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+}
+
+.suggestion-item:hover {
+    background: #f8d7da; /* Matches the rainfall dropdown hover effect */
+}
+
+/* Position dropdown under search box */
+.search-container {
+    position: relative;
+}
+
+.search-container input {
+    width: 100%;
+    padding-right: 30px;
+}
+
+/* Ensure dropdown is properly aligned */
+.search-container .suggestions-container {
+    top: 100%;
+    left: 0;
+    width: 100%;
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 30%;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.close-btn {
+    color: red;
+    font-size: 24px;
+    float: right;
+    cursor: pointer;
+}

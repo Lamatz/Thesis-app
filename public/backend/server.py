@@ -27,7 +27,7 @@ CORS(
 
 # Load spatial files (assuming these paths are correct relative to where the script is run)
 try:
-    soil_shapefile = "../public/backend/soil map/hays.shp"
+    soil_shapefile = "backend/soil map/hays.shp"
     soil_gdf = gpd.read_file(soil_shapefile)
     soil_gdf.sindex  # Build spatial index for performance
 except Exception as e:
@@ -35,7 +35,7 @@ except Exception as e:
     soil_gdf = None
 
 try:
-    slope_tif = "../public/backend/Slope Map/slope.tif"
+    slope_tif = "backend/Slope Map/slope.tif"
     # Keep the rasterio file open reference if needed elsewhere, or open/close per call
     # For simplicity here, we'll open/c1lose inside the function
     # slope_raster = rasterio.open(slope_tif)
@@ -284,7 +284,7 @@ def fetch_weather_data(latitude, longitude, end_date_str, end_time_str):
         return {"error": f"Error processing weather data: {e}"}
 
 
-# ... (rest of your ../public/backend routes: search_locations, get_weather endpoint handler, predict endpoint handler, model loading, main execution block) ...
+# ... (rest of your backend routes: search_locations, get_weather endpoint handler, predict endpoint handler, model loading, main execution block) ...
 
 
 @app.route("/search_locations", methods=["GET"])
@@ -361,10 +361,10 @@ def get_weather():
 # I WILL CHANGE THIS PATHING
 
 # Load trained model and scaler
-with open("../public/backend/model_4.pkl", "rb") as model_file:
+with open("backend/model_4.pkl", "rb") as model_file:
     model = pickle.load(model_file)
 
-with open("../public/backend/scaler_4.pkl", "rb") as scaler_file:
+with open("backend/scaler_4.pkl", "rb") as scaler_file:
     scaler = pickle.load(scaler_file)
 
 
@@ -544,3 +544,5 @@ def generate_report():
         )
 
 
+if __name__ == "__main__":
+    app.run(debug=True)

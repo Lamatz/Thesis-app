@@ -19,9 +19,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shepherd.js@8.3.1/dist/css/shepherd.css" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../css/navbar-style.css">
-    <link rel="stylesheet" href="../css/homepage_style-v2.css">
-    <link rel="stylesheet" href="../css/dashboard-style.css">
+    <link rel="stylesheet" href="css/navbar-style.css">
+    <link rel="stylesheet" href="css/homepage_style-v2.css">
+    <link rel="stylesheet" href="css/dashboard-style.css">
 
 
 </head>
@@ -33,7 +33,7 @@
         <div class="container">
             <a class="navbar-brand d-flex justify-content-center align-items-center href">
                 <!-- <i class="fas fa-mountain me-2"></i>Two Steps Ahead -->
-                <img src="../icons/thesis-logo-v2-try1.png" alt="logo">Two Steps Ahead
+                <img src="icons/thesis-logo-v2-try1.png" alt="logo">Two Steps Ahead
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -277,7 +277,7 @@
             let agriChart; // Will be created after data loads
 
             // --- DATA LOADING & PROCESSING ---
-            Papa.parse("../csv/datas.csv", {
+            Papa.parse("csv/datas.csv", {
                 download: true,
                 header: true,
                 complete: function (results) {
