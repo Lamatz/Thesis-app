@@ -1,20 +1,23 @@
 
-from flask import Flask, jsonify, request
-from flask_cors import CORS
+# api/index.py
+from flask import Flask, jsonify
 
 app = Flask(__name__)
-CORS(app)
 
-# THIS IS THE NEW DEBUGGING CODE
-@app.before_request
-def log_request_info():
-    print(f"Headers: {request.headers}")
-    print(f"Request Path: {request.path}") # <-- This will tell us the exact path
+# No CORS or before_request needed for this simple test
 
 @app.route('/api/test')
 def test_route():
-    print("MATCHED /api/test route!") # <-- Add a print here too
+    # This is the only line we want to see in the logs
+    print("SUCCESS: The /api/test route was correctly matched!")
     return jsonify({"message": "Minimal deployment successful!"})
+
+# Add a root route to explain what's happening
+@app.route('/')
+@app.route('/<path:path>')
+def catch_all(path=None):
+    print(f"INFO: A request for path '{path or '/'}' was received but not matched.")
+    return "This is the Python backend. The route you requested was not found.", 404
 
 
 
