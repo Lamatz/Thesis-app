@@ -3,7 +3,7 @@ Flask
 Flask-Cors
 geopandas
 numpy
-pandas
+#pandas
 pyproj
 rasterio
 requests
