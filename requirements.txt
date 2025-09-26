@@ -1,14 +1,13 @@
 #  modidfied requirements.txt
 Flask
 Flask-Cors
-fiona
-google-genai
+geopandas
 numpy
-onnxruntime
 pandas
 pyproj
-python-dotenv
 rasterio
 requests
 shapely
-
+scikit-learn
+#google-genai
+python-dotenv
