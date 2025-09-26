@@ -8,6 +8,6 @@ pyproj
 rasterio
 requests
 shapely
-scikit-learn
+#scikit-learn
 #google-genai
 python-dotenv
