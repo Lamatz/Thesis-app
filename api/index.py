@@ -13,11 +13,11 @@ def test_route():
     return jsonify({"message": "Minimal deployment successful!"})
 
 # Add a root route to explain what's happening
-@app.route('/')
-@app.route('/<path:path>')
-def catch_all(path=None):
-    print(f"INFO: A request for path '{path or '/'}' was received but not matched.")
-    return "This is the Python backend. The route you requested was not found.", 404
+# @app.route('/')
+# @app.route('/<path:path>')
+# def catch_all(path=None):
+#     print(f"INFO: A request for path '{path or '/'}' was received but not matched.")
+#     return "This is the Python backend. The route you requested was not found.", 404
 
 
 
