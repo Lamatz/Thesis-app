@@ -1,11 +1,14 @@
-# requirements.txt
+#  modidfied requirements.txt
 Flask
-flask_cors
-pandas
+Flask-Cors
+fiona
+google-genai
 numpy
-# scikit-learn
+onnxruntime
+pandas
+pyproj
+python-dotenv
+rasterio
 requests
 shapely
-pyproj
-google-generativeai
 
