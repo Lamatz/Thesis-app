@@ -1,3 +1,11 @@
 # requirements.txt
 Flask
 flask_cors
+pandas
+numpy
+# scikit-learn
+requests
+shapely
+pyproj
+google-generativeai
+
