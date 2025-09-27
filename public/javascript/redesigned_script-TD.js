@@ -113,7 +113,7 @@ async function updateLocationInfo(lat, lng) {
     // --- 4. Fetch data from APIs in parallel ---
     const locationPromise = fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
         .then(res => res.json());
-    const dataPromise = fetch(`http://127.0.0.1:5000/get_location_data?lat=${lat}&lon=${lng}`)
+    const dataPromise = fetch(`/get_location_data?lat=${lat}&lon=${lng}`)
         .then(res => res.json());
 
 
@@ -206,7 +206,7 @@ async function fetchWeatherData(lat, lon, date, time) {
 
     console.log(`Fetching weather for: ${lat}, ${lon}, on ${date} at ${time}`);
     try {
-        const response = await fetch(`http://127.0.0.1:5000/get_weather?latitude=${lat}&longitude=${lon}&date=${date}&time=${time}`);
+        const response = await fetch(`/get_weather?latitude=${lat}&longitude=${lon}&date=${date}&time=${time}`);
         const data = await response.json();
         if (data.error) throw new Error(data.error);
 
@@ -414,7 +414,7 @@ async function getSearchSuggestions(query) {
     }
 
     try {
-        const response = await fetch(`http://127.0.0.1:5000/search_locations?query=${query}`);
+        const response = await fetch(`/search_locations?query=${query}`);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
 
@@ -714,7 +714,7 @@ predictBtn.addEventListener("click", async () => {
     // --- 2. API Call ---
     console.log("Sending for prediction:", requestData);
     try {
-        const response = await fetch("http://127.0.0.1:5000/predict", {
+        const response = await fetch("/predict", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(requestData)
@@ -863,7 +863,7 @@ Do you wish to proceed?`;
 
 
 
-        const response = await fetch("http://127.0.0.1:5000/generate_report", {
+        const response = await fetch("/generate_report", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(requestData)
