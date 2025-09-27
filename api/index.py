@@ -40,6 +40,7 @@ def get_location_data():
         return jsonify({"error": error_msg}), 400
 
     try:
+        print("TRY AND PRINT")
         # This is the API call to your Google Cloud Run service
         response = requests.get(
             GEOSPATIAL_API_URL + "/get_geo_data", # Make sure to add the path
