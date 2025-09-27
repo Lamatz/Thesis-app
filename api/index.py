@@ -318,12 +318,12 @@ def predict():
 
         # Run inference
         # Note the input format: a dictionary mapping input_name to the scaled features
-        pred_onx = model.run([label_name, probability_name], {input_name: features_scaled})
+        pred_onx = model.run([label_name, probability_name], {input_name: features})
 
         probabilities = pred_onx[1][0] # The probabilities are in the second output
         prediction = int(np.argmax(probabilities))
 
-        print(f"Scaled Features: {features_scaled}")
+        print(f"Scaled Features: {features}")
         print(f"Probabilities: {probabilities}")
 
         return jsonify(
