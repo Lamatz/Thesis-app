@@ -22,7 +22,7 @@ CORS(app)
 load_dotenv()
 
 
-print("HRLLWOEW")
+
 print("HRLLWOEW")
 # --- NEW: Get the Geospatial Service URL from Environment Variables ---
 GEOSPATIAL_API_URL = os.getenv("GEOSPATIAL_API_URL")
