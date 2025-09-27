@@ -254,33 +254,34 @@ def get_weather():
     return jsonify(data)
 
 
+# --- MODIFIED load_from_url with DETAILED LOGGING ---
 def load_from_url(url):
     """Downloads a file from a URL and returns its content."""
+    print(f"--- Attempting to download from URL: {url} ---") # DEBUG PRINT 1
     if not url:
-        raise ValueError("URL is not set in environment variables.")
+        raise ValueError("URL is None or empty. Check environment variables.")
     try:
         response = requests.get(url, timeout=30)
-        response.raise_for_status()
+        print(f"--- Download request completed with status code: {response.status_code} ---") # DEBUG PRINT 2
+        response.raise_for_status() # This will raise an error for 4xx/5xx status codes
+        print(f"--- File downloaded successfully. Size: {len(response.content)} bytes. ---") # DEBUG PRINT 3
         return response.content
     except requests.exceptions.RequestException as e:
-        print(f"Error downloading file from {url}: {e}")
+        print(f"--- FATAL ERROR during download from {url}: {e} ---") # DEBUG PRINT (ERROR)
         raise
 
-# Load the scaler (same as before)
+# --- MODIFIED Model Loading with DETAILED LOGGING ---
 try:
-    # scaler_content = load_from_url(SCALER_URL)
-    # scaler = pickle.load(io.BytesIO(scaler_content))
-    print("Scaler loaded successfully.")
-
-    # Load the ONNX model
+    print("--- Starting model loading process... ---")
     model_content = load_from_url(ONNX_MODEL_URL)
-    # Create an ONNX inference session
+    
+    print("--- Creating ONNX inference session... ---")
     sess_options = rt.SessionOptions()
     model = rt.InferenceSession(model_content, sess_options, providers=['CPUExecutionProvider'])
-    print("ONNX model session created successfully.")
+    print("--- ONNX model session created successfully. Application is ready. ---")
 
 except Exception as e:
-    print(f"FATAL ERROR: Could not load models. Application cannot start. Error: {e}")
+    print(f"--- FATAL ERROR: Could not load models. Application cannot start. Error: {e} ---")
     raise
 
 
