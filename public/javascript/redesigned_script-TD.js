@@ -119,7 +119,9 @@ async function updateLocationInfo(lat, lng) {
 
 
     try {
+        console.log("Testing thissisi");
         const [locationData, siteData] = await Promise.all([locationPromise, dataPromise]);
+        console.log("Testing thissisi 2");
 
         // --- 5. Process and store fetched data ---
         selectedLocation.name = locationData.display_name || "Unknown Location";
