@@ -9,5 +9,5 @@ Flask-Cors
 # requests
 # shapely
 # #scikit-learn
-# #google-genai
+google-genai
 # python-dotenv
