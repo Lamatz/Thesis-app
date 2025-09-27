@@ -30,6 +30,7 @@ ONNX_MODEL_URL = os.getenv("ONNX_MODEL_BLOB_URL")
 # MODIFIED get_location_data to now integrate with google run
 @app.route("/get_location_data", methods=["GET"])
 def get_location_data():
+    print("HRLLWOEW")
     latitude = request.args.get("lat", type=float)
     longitude = request.args.get("lon", type=float)
 
