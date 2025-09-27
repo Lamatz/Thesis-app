@@ -3,15 +3,14 @@ Flask
 Flask-Cors
 google-genai
 numpy
-# #scikit-learn
+scikit-learn
 pandas
 python-dotenv
 requests
 
-# #pandas
+
 # pyproj
 # rasterio
-
 # shapely
 
 
