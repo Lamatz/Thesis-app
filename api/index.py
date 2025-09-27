@@ -1,18 +1,19 @@
 
-
-
 from flask import Flask, request, jsonify, Response
 import pandas as pd
 from datetime import datetime, timedelta
 from flask_cors import CORS
 import numpy as np
 import pickle
-import requests  # We still need this!
+import requests  
 import os
+import io
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
+
+import onnxruntime as rt
 
 # --- App Initialization ---
 app = Flask(__name__)
@@ -21,6 +22,10 @@ load_dotenv()
 
 # --- NEW: Get the Geospatial Service URL from Environment Variables ---
 GEOSPATIAL_API_URL = os.getenv("GEOSPATIAL_API_URL")
+# Get the URLs from the environment variables
+# MODEL_URL = os.getenv("MODEL_BLOB_URL")
+SCALER_URL = os.getenv("SCALER_BLOB_URL")
+ONNX_MODEL_URL = os.getenv("ONNX_MODEL_BLOB_URL")
 
 # MODIFIED get_location_data to now integrate with google run
 @app.route("/get_location_data", methods=["GET"])
@@ -249,21 +254,41 @@ def get_weather():
     return jsonify(data)
 
 
-# I WILL CHANGE THIS PATHING
+def load_from_url(url):
+    """Downloads a file from a URL and returns its content."""
+    if not url:
+        raise ValueError("URL is not set in environment variables.")
+    try:
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        return response.content
+    except requests.exceptions.RequestException as e:
+        print(f"Error downloading file from {url}: {e}")
+        raise
 
-# Load trained model and scaler
-with open("../public/backend/model_4.pkl", "rb") as model_file:
-    model = pickle.load(model_file)
+# Load the scaler (same as before)
+try:
+    scaler_content = load_from_url(SCALER_URL)
+    scaler = pickle.load(io.BytesIO(scaler_content))
+    print("Scaler loaded successfully.")
 
-with open("../public/backend/scaler_4.pkl", "rb") as scaler_file:
-    scaler = pickle.load(scaler_file)
+    # Load the ONNX model
+    model_content = load_from_url(ONNX_MODEL_URL)
+    # Create an ONNX inference session
+    sess_options = rt.SessionOptions()
+    model = rt.InferenceSession(model_content, sess_options, providers=['CPUExecutionProvider'])
+    print("ONNX model session created successfully.")
+
+except Exception as e:
+    print(f"FATAL ERROR: Could not load models. Application cannot start. Error: {e}")
+    exit(1)
 
 
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
         data = request.json
-        features = [
+        features = np.array([
             int(data.get("soil_type", 0)),
             float(data.get("slope", 0)),
             float(data.get("soil_moisture", 0)),
@@ -279,14 +304,28 @@ def predict():
             float(data.get("rain-intensity-1-day", 0)),
             float(data.get("rain-intensity-3-day", 0)),
             float(data.get("rain-intensity-5-day", 0)),
-        ]
+        ], dtype=np.float32)
 
         features_scaled = scaler.transform([features])
-        probabilities = model.predict_proba(features_scaled)[0]
+
+
+         # --- Prediction using ONNX Runtime ---
+        # Get the name of the input node
+        input_name = model.get_inputs()[0].name
+        # Get the names of the output nodes (usually 2: label and probabilities)
+        label_name = model.get_outputs()[0].name
+        probability_name = model.get_outputs()[1].name
+
+        # Run inference
+        # Note the input format: a dictionary mapping input_name to the scaled features
+        pred_onx = model.run([label_name, probability_name], {input_name: features_scaled})
+
+        probabilities = pred_onx[1][0] # The probabilities are in the second output
         prediction = int(np.argmax(probabilities))
-        print(features)
-        print(features_scaled)
-        print(probabilities)
+
+        print(f"Scaled Features: {features_scaled}")
+        print(f"Probabilities: {probabilities}")
+
         return jsonify(
             {
                 "prediction": "Landslide" if prediction == 1 else "No Landslide",
