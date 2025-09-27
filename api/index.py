@@ -268,8 +268,8 @@ def load_from_url(url):
 
 # Load the scaler (same as before)
 try:
-    scaler_content = load_from_url(SCALER_URL)
-    scaler = pickle.load(io.BytesIO(scaler_content))
+    # scaler_content = load_from_url(SCALER_URL)
+    # scaler = pickle.load(io.BytesIO(scaler_content))
     print("Scaler loaded successfully.")
 
     # Load the ONNX model
@@ -281,7 +281,7 @@ try:
 
 except Exception as e:
     print(f"FATAL ERROR: Could not load models. Application cannot start. Error: {e}")
-    exit(1)
+    raise
 
 
 @app.route("/predict", methods=["POST"])
@@ -306,7 +306,7 @@ def predict():
             float(data.get("rain-intensity-5-day", 0)),
         ], dtype=np.float32)
 
-        features_scaled = scaler.transform([features])
+        # features_scaled = scaler.transform([features])
 
 
          # --- Prediction using ONNX Runtime ---
