@@ -278,6 +278,7 @@ def load_from_url(url):
 
 # --- MODIFIED Model Loading with DETAILED LOGGING ---
 try:
+    print("LAST")
     print("--- Starting model loading process... ---")
     model_content = load_from_url(ONNX_MODEL_URL)
     
