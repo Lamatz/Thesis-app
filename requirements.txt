@@ -3,7 +3,8 @@ Flask
 Flask-Cors
 google-genai
 numpy
-scikit-learn
+# scikit-learn
+onnxruntime
 pandas
 python-dotenv
 requests
