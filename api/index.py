@@ -17,15 +17,14 @@ from google.genai import types
 import onnxruntime as rt
 
 # --- App Initialization ---
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../public', static_url_path='')
 CORS(app)
 load_dotenv()
 
 
 @app.route("/")
 def index():
-    # You can return a simple message to confirm the server is running
-    return "The Landslide Prediction API is online."
+    return app.send_static_file('index.html')
 
 
 # --- NEW: Get the Geospatial Service URL from Environment Variables ---
