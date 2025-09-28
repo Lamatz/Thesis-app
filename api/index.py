@@ -35,7 +35,7 @@ SCALER_URL = os.getenv("SCALER_BLOB_URL")
 ONNX_MODEL_URL = os.getenv("ONNX_MODEL_BLOB_URL")
 
 # MODIFIED get_location_data to now integrate with google run
-@app.route("/get_location_data", methods=["GET"])
+@app.route("/api/get_location_data", methods=["GET"])
 def get_location_data():
     print("HRLLWOEW")
     latitude = request.args.get("lat", type=float)
@@ -192,7 +192,7 @@ def fetch_weather_data(latitude, longitude, end_date_str, end_time_str):
 # ... (rest of the search_locations, get_weather endpoint handler, predict endpoint handler, model loading, main execution block) ...
 
 
-@app.route("/search_locations", methods=["GET"])
+@app.route("/api/search_locations", methods=["GET"])
 def search_locations():
     query = request.args.get("query")
     if not query:
@@ -248,7 +248,7 @@ def search_locations():
 # ==========================================================
 # == MODIFIED: /get_weather endpoint to accept time param ==
 # ==========================================================
-@app.route("/get_weather", methods=["GET"])
+@app.route("/api/get_weather", methods=["GET"])
 def get_weather():
     latitude = request.args.get("latitude", type=float)
     longitude = request.args.get("longitude", type=float)
@@ -295,7 +295,7 @@ except Exception as e:
     raise
 
 
-@app.route("/predict", methods=["POST"])
+@app.route("/api/predict", methods=["POST"])
 def predict():
     try:
         data = request.json
@@ -362,7 +362,7 @@ def predict():
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 # === ENDPOINT 2: NEW GEMINI REPORT GENERATOR ===
-@app.route("/generate_report", methods=["POST"])  # <-- NEW, SEPARATE URL
+@app.route("/api/generate_report", methods=["POST"])  # <-- NEW, SEPARATE URL
 def generate_report():
     """
     Receives data and uses Gemini to generate a detailed text report.
