@@ -263,91 +263,59 @@ def get_weather():
     return jsonify(data)
 
 
-# --- MODIFIED load_from_url with DETAILED LOGGING ---
-def load_from_url(url):
-    """Downloads a file from a URL and returns its content."""
-    print(f"--- Attempting to download from URL: {url} ---") # DEBUG PRINT 1
-    if not url:
-        raise ValueError("URL is None or empty. Check environment variables.")
-    try:
-        response = requests.get(url, timeout=30)
-        print(f"--- Download request completed with status code: {response.status_code} ---") # DEBUG PRINT 2
-        response.raise_for_status() # This will raise an error for 4xx/5xx status codes
-        print(f"--- File downloaded successfully. Size: {len(response.content)} bytes. ---") # DEBUG PRINT 3
-        return response.content
-    except requests.exceptions.RequestException as e:
-        print(f"--- FATAL ERROR during download from {url}: {e} ---") # DEBUG PRINT (ERROR)
-        raise
+# # --- MODIFIED load_from_url with DETAILED LOGGING ---
+# def load_from_url(url):
+#     """Downloads a file from a URL and returns its content."""
+#     print(f"--- Attempting to download from URL: {url} ---") # DEBUG PRINT 1
+#     if not url:
+#         raise ValueError("URL is None or empty. Check environment variables.")
+#     try:
+#         response = requests.get(url, timeout=30)
+#         print(f"--- Download request completed with status code: {response.status_code} ---") # DEBUG PRINT 2
+#         response.raise_for_status() # This will raise an error for 4xx/5xx status codes
+#         print(f"--- File downloaded successfully. Size: {len(response.content)} bytes. ---") # DEBUG PRINT 3
+#         return response.content
+#     except requests.exceptions.RequestException as e:
+#         print(f"--- FATAL ERROR during download from {url}: {e} ---") # DEBUG PRINT (ERROR)
+#         raise
 
-# --- MODIFIED Model Loading with DETAILED LOGGING ---
-try:
-    print("LAST")
-    print("--- Starting model loading process... ---")
-    model_content = load_from_url(ONNX_MODEL_URL)
+# # --- MODIFIED Model Loading with DETAILED LOGGING ---
+# try:
+#     print("--- Starting model loading process... ---")
+#     model_content = load_from_url(ONNX_MODEL_URL)
     
-    print("--- Creating ONNX inference session... ---")
-    sess_options = rt.SessionOptions()
-    model = rt.InferenceSession(model_content, sess_options, providers=['CPUExecutionProvider'])
-    print("--- ONNX model session created successfully. Application is ready. ---")
+#     print("--- Creating ONNX inference session... ---")
+#     sess_options = rt.SessionOptions()
+#     model = rt.InferenceSession(model_content, sess_options, providers=['CPUExecutionProvider'])
+#     print("--- ONNX model session created successfully. Application is ready. ---")
 
-except Exception as e:
-    print(f"--- FATAL ERROR: Could not load models. Application cannot start. Error: {e} ---")
-    raise
+# except Exception as e:
+#     print(f"--- FATAL ERROR: Could not load models. Application cannot start. Error: {e} ---")
+#     raise
 
 
 @app.route("/api/predict", methods=["POST"])
 def predict():
+    if not GEOSPATIAL_API_URL:
+        return jsonify({"error": "Backend service is not configured"}), 503
+
     try:
-        data = request.json
-        features = np.array([
-            int(data.get("soil_type", 0)),
-            float(data.get("slope", 0)),
-            float(data.get("soil_moisture", 0)),
-            float(data.get("rainfall-3-hr", 0)),
-            float(data.get("rainfall-6-hr", 0)),
-            float(data.get("rainfall-12-hr", 0)),
-            float(data.get("rain-intensity-3-hr", 0)),
-            float(data.get("rain-intensity-6hr", 0)),
-            float(data.get("rain-intensity-12-hr", 0)),
-            float(data.get("rainfall-1-day", 0)),
-            float(data.get("rainfall-3-day", 0)),
-            float(data.get("rainfall-5-day", 0)),
-            float(data.get("rain-intensity-1-day", 0)),
-            float(data.get("rain-intensity-3-day", 0)),
-            float(data.get("rain-intensity-5-day", 0)),
-        ], dtype=np.float32)
+        # 1. Get the JSON data from the original request
+        incoming_data = request.get_json()
 
-        # features_scaled = scaler.transform([features])
+        # 2. Forward this data to the Cloud Run /predict endpoint
+        predict_url = f"{GEOSPATIAL_API_URL}/predict"
+        response = requests.post(predict_url, json=incoming_data, timeout=15)
+        response.raise_for_status()
 
-        features_reshaped = features.reshape(1, -1)
+        # 3. Return the response from the Cloud Run service directly to the frontend
+        return response.json()
 
-         # --- Prediction using ONNX Runtime ---
-        # Get the name of the input node
-        input_name = model.get_inputs()[0].name
-        # Get the names of the output nodes (usually 2: label and probabilities)
-        label_name = model.get_outputs()[0].name
-        probability_name = model.get_outputs()[1].name
-
-        # Run inference
-        # Note the input format: a dictionary mapping input_name to the scaled features
-        pred_onx = model.run([label_name, probability_name], {input_name: features_reshaped})
-
-        probabilities = pred_onx[1][0] # The probabilities are in the second output
-        prediction = int(np.argmax(probabilities))
-
-        print(f"Scaled Features: {features}")
-        print(f"Probabilities: {probabilities}")
-
-        return jsonify(
-            {
-                "prediction": "Landslide" if prediction == 1 else "No Landslide",
-                "confidence": f"{max(probabilities) * 100:.2f}%",
-            }
-        )
-
+    except requests.exceptions.RequestException as e:
+        print(f"Error calling prediction service: {e}")
+        return jsonify({"error": "Error communicating with the prediction service"}), 503
     except Exception as e:
         return jsonify({"error": str(e)}), 400
-
 
 # ==========================================================
 # == CODE for the Generate AI Report ==
