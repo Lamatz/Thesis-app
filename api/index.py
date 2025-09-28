@@ -22,8 +22,12 @@ CORS(app)
 load_dotenv()
 
 
+@app.route("/")
+def index():
+    # You can return a simple message to confirm the server is running
+    return "The Landslide Prediction API is online."
 
-print("HRLLWOEW")
+
 # --- NEW: Get the Geospatial Service URL from Environment Variables ---
 GEOSPATIAL_API_URL = os.getenv("GEOSPATIAL_API_URL")
 # Get the URLs from the environment variables
