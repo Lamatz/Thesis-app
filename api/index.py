@@ -319,6 +319,7 @@ def predict():
 
         # features_scaled = scaler.transform([features])
 
+        features_reshaped = features.reshape(1, -1)
 
          # --- Prediction using ONNX Runtime ---
         # Get the name of the input node
@@ -329,7 +330,7 @@ def predict():
 
         # Run inference
         # Note the input format: a dictionary mapping input_name to the scaled features
-        pred_onx = model.run([label_name, probability_name], {input_name: features})
+        pred_onx = model.run([label_name, probability_name], {input_name: features_reshaped})
 
         probabilities = pred_onx[1][0] # The probabilities are in the second output
         prediction = int(np.argmax(probabilities))
