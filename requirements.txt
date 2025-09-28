@@ -4,7 +4,7 @@ Flask-Cors
 google-genai
 # numpy
 scikit-learn
-# onnxruntime
+onnxruntime
 # pandas
 python-dotenv
 requests
