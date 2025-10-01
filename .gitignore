@@ -1,13 +1,4 @@
-Slope Map/
-Slope Map/slope.tif
-backend/Slope Map/
-venv/
-.ipynb_checkpoints/
-.env
-model_4.pkl
-scaler_4.pkl
-public/backend/model_4.pkl
-public/backend/scaler_4.pkl
+
 
 .vercel
 .env*.local
