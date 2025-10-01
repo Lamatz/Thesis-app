@@ -4,40 +4,31 @@ import pandas as pd
 from datetime import datetime, timedelta
 from flask_cors import CORS
 import numpy as np
-import pickle
 import requests  
 import os
-import io
 from dotenv import load_dotenv
 from google import genai
-from google.genai import types
 
-# testing
 
-import onnxruntime as rt
 
 # --- App Initialization ---
 app = Flask(__name__, static_folder='../public', static_url_path='')
 CORS(app)
 load_dotenv()
 
-
+# This is important for the vercel configuration as this is what it will first and also what allows it to redirect to the index.html file
 @app.route("/")
 def index():
     return app.send_static_file('index.html')
 
 
-# --- NEW: Get the Geospatial Service URL from Environment Variables ---
+# --- Get the Geospatial Service URL from Environment Variables in Vercel ---
 GEOSPATIAL_API_URL = os.getenv("GEOSPATIAL_API_URL")
-# Get the URLs from the environment variables
-# MODEL_URL = os.getenv("MODEL_BLOB_URL")
-SCALER_URL = os.getenv("SCALER_BLOB_URL")
-ONNX_MODEL_URL = os.getenv("ONNX_MODEL_BLOB_URL")
+
 
 # MODIFIED get_location_data to now integrate with google run
 @app.route("/api/get_location_data", methods=["GET"])
 def get_location_data():
-    print("HRLLWOEW")
     latitude = request.args.get("lat", type=float)
     longitude = request.args.get("lon", type=float)
 
@@ -132,7 +123,7 @@ def fetch_weather_data(latitude, longitude, end_date_str, end_time_str):
             label: compute_intensity(h) for label, h in time_windows.items()
         }
 
-        # --- NEW & CORRECTED: Generate clean data specifically for the 4 charts ---
+
 
         # 1. Hourly Chart Data (for the 12 hours leading up to end_datetime)
         hourly_chart_data = []
@@ -189,7 +180,7 @@ def fetch_weather_data(latitude, longitude, end_date_str, end_time_str):
         return {"error": f"Error processing weather data: {e}"}
 
 
-# ... (rest of the search_locations, get_weather endpoint handler, predict endpoint handler, model loading, main execution block) ...
+
 
 
 @app.route("/api/search_locations", methods=["GET"])
@@ -202,7 +193,7 @@ def search_locations():
     if len(query.strip()) < 3:
         return jsonify({"suggestions": []})  # Return empty list for short queries
 
-    # Add a User-Agent header as recommended by Nominatim
+    # Add a User-Agent header 
     query = request.args.get("query")  # This line likely exists already
     url = f"https://nominatim.openstreetmap.org/search?q={query}&format=json&limit=1&countrycodes=PH"
 
@@ -220,7 +211,7 @@ def search_locations():
 
     # Debugging output
     print("Nominatim Query:", query)
-    print("Nominatim Response (first 5):", data[:1])  # Print only first few for brevity
+    print("Nominatim Response (first 5):", data[:1])  
 
     if not data:
         print("No results found for Nominatim query:", query)
@@ -235,7 +226,6 @@ def search_locations():
                 "name": item.get("display_name", "Unnamed Location"),
                 "lat": item.get("lat"),
                 "lon": item.get("lon"),
-                # Add other useful Nominatim fields if needed, but avoid fetching external data
                 "category": item.get("category"),
                 "type": item.get("type"),
             }
@@ -263,36 +253,6 @@ def get_weather():
     return jsonify(data)
 
 
-# # --- MODIFIED load_from_url with DETAILED LOGGING ---
-# def load_from_url(url):
-#     """Downloads a file from a URL and returns its content."""
-#     print(f"--- Attempting to download from URL: {url} ---") # DEBUG PRINT 1
-#     if not url:
-#         raise ValueError("URL is None or empty. Check environment variables.")
-#     try:
-#         response = requests.get(url, timeout=30)
-#         print(f"--- Download request completed with status code: {response.status_code} ---") # DEBUG PRINT 2
-#         response.raise_for_status() # This will raise an error for 4xx/5xx status codes
-#         print(f"--- File downloaded successfully. Size: {len(response.content)} bytes. ---") # DEBUG PRINT 3
-#         return response.content
-#     except requests.exceptions.RequestException as e:
-#         print(f"--- FATAL ERROR during download from {url}: {e} ---") # DEBUG PRINT (ERROR)
-#         raise
-
-# # --- MODIFIED Model Loading with DETAILED LOGGING ---
-# try:
-#     print("--- Starting model loading process... ---")
-#     model_content = load_from_url(ONNX_MODEL_URL)
-    
-#     print("--- Creating ONNX inference session... ---")
-#     sess_options = rt.SessionOptions()
-#     model = rt.InferenceSession(model_content, sess_options, providers=['CPUExecutionProvider'])
-#     print("--- ONNX model session created successfully. Application is ready. ---")
-
-# except Exception as e:
-#     print(f"--- FATAL ERROR: Could not load models. Application cannot start. Error: {e} ---")
-#     raise
-
 
 @app.route("/api/predict", methods=["POST"])
 def predict():
@@ -317,10 +277,11 @@ def predict():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
+
+
 # ==========================================================
 # == CODE for the Generate AI Report ==
 # ==========================================================
-
 
 # In order to use this properly you need to first:
 # 1. Have an api key for the gemini model (you can use mine but I recommend you have you own so that mine doesn't reach the rate limit. AIzaSyB-rg3sokaltFw2IHB8eiR1hbjNFaGxMpQ )
@@ -440,7 +401,6 @@ def generate_report():
                     yield stream.text
 
         return Response(stream_generator(), mimetype="text/plain")
-        # return jsonify({"report": response.text})
 
     except Exception as e:
         print(f"An error occurred in report generation: {e}")
@@ -451,139 +411,3 @@ def generate_report():
             500,
         )
 
-
-
-# THE OLD code for getting the soil and slope now moved to google cloud run
-# REMOVE IN THE FUTURE !!!!
-
-# # Load spatial files (assuming these paths are correct relative to where the script is run)
-# try:
-#     soil_shapefile = "../public/backend/soil map/hays.shp"
-#     soil_gdf = gpd.read_file(soil_shapefile)
-#     soil_gdf.sindex  # Build spatial index for performance
-# except Exception as e:
-#     print(f"Error loading soil shapefile {soil_shapefile}: {e}")
-#     soil_gdf = None
-
-# try:
-#     slope_tif = "../public/backend/Slope Map/slope.tif"
-#     # Keep the rasterio file open reference if needed elsewhere, or open/close per call
-#     # For simplicity here, we'll open/c1lose inside the function
-#     # slope_raster = rasterio.open(slope_tif)
-# except Exception as e:
-#     print(f"Error loading slope GeoTIFF {slope_tif}: {e}")
-#     # slope_raster = None
-
-
-# # Convert coordinates from WGS84 to raster CRS
-# def convert_coords(lon, lat, crs):
-#     # You might need pyproj import here if it's not globally available
-#     transformer = Transformer.from_crs("EPSG:4326", crs, always_xy=True)
-#     return transformer.transform(lon, lat)
-
-
-# # Function to extract soil type from shapefile
-# def get_soil_type(lon, lat):
-#     if soil_gdf is None:
-#         return "Error: Shapefile not loaded"
-#     point = Point(lon, lat)
-#     # Add error handling/validation for point
-#     if not point.is_valid:
-#         return "Error: Invalid coordinates for soil lookup"
-#     try:
-#         for _, row in soil_gdf.iterrows():
-#             # Use .within() or .intersects() with buffering for robustness near boundaries if needed
-#             if row.geometry and row.geometry.contains(point):
-#                 return row.get("SNUM", "Unknown")  # Use .get for safer attribute access
-#         return "Unknown"  # Point not found in any polygon
-#     except Exception as e:
-#         print(f"Error in get_soil_type: {e}")
-#         return "Error during processing"
-
-
-# # Function to extract slope from GeoTIFF
-# def get_slope(lon, lat):
-#     # Open the raster inside the function to manage resources
-#     try:
-#         with rasterio.open(slope_tif) as src:
-#             x, y = convert_coords(
-#                 lon, lat, src.crs
-#             )  # Convert coordinates to raster CRS
-#             # Check if coordinates are within raster bounds before indexing
-#             if not (
-#                 src.bounds.left <= x <= src.bounds.right
-#                 and src.bounds.bottom <= y <= src.bounds.top
-#             ):
-#                 print(
-#                     f"Coords ({lon}, {lat}) converted to ({x}, {y}) are outside raster bounds."
-#                 )
-#                 return None  # Return None if outside bounds
-
-#             row, col = src.index(x, y)  # Get row/col in raster
-
-#             # Check if row/col are within raster dimensions
-#             if 0 <= row < src.height and 0 <= col < src.width:
-#                 # Read only a single pixel
-#                 window = ((row, row + 1), (col, col + 1))
-#                 # Use boundless=True to read even if the calculated row/col is slightly off edge (returns nodata if outside padded area)
-#                 slope_value_array = src.read(1, window=window, boundless=True)
-
-#                 if slope_value_array.shape == (1, 1):
-#                     slope_value = slope_value_array[0, 0]
-#                 else:
-#                     print("Did not read a single pixel as expected.")
-#                     return None
-
-#                 # Handle NoData values or NaNs
-#                 if src.nodata is not None and slope_value == src.nodata:
-#                     return None  # Return None for NoData
-#                 if np.isnan(slope_value):
-#                     return None  # Return None for NaN values
-
-#                 return float(slope_value)
-#             else:
-#                 print(f"Coords ({lon}, {lat}) map to invalid row/col ({row}, {col}).")
-#                 return None  # Point maps to invalid row/col index
-
-#     except rasterio.errors.RasterioIOError as e:
-#         print(f"Rasterio IO error reading slope data: {e}")
-#         return "Error reading raster file"
-#     except Exception as e:
-#         print(f"Error during slope extraction: {e}")
-#         return "Error during processing"
-
-
-# # Get location data (slope & soil type)
-# @app.route("/get_location_data", methods=["GET"])
-# def get_location_data():
-#     latitude = request.args.get("lat", type=float)
-#     longitude = request.args.get("lon", type=float)
-
-#     if (
-#         latitude is None
-#         or longitude is None
-#         or abs(latitude) > 90
-#         or abs(longitude) > 180
-#     ):
-#         return jsonify({"error": "Invalid or missing coordinates"}), 400
-
-#     # Add error handling for spatial file loading issues
-#     if (
-#         soil_gdf is None or slope_tif is None
-#     ):  # Check slope_tif path existence might be better
-#         return jsonify({"error": "Spatial data files not loaded on server"}), 500
-
-#     slope = get_slope(longitude, latitude)
-#     soil_type = get_soil_type(longitude, latitude)
-
-#     # Return None slope if extraction failed or point was outside
-#     return jsonify(
-#         {
-#             "slope": slope,  # Return None if get_slope returned None or Error string
-#             "soil_type": (
-#                 str(soil_type)
-#                 if not isinstance(soil_type, str) or not soil_type.startswith("Error")
-#                 else soil_type
-#             ),
-#         }
-#     )
