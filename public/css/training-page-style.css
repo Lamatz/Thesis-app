@@ -1,0 +1,221 @@
+/* ==========================================================================
+   User Guide & Dashboard Page Styles
+   ========================================================================== */
+
+/* --- 1. Global Setup & Variables --- */
+:root {
+    /* Colors */
+    --text-color: #190809;
+    --text-gradient-start: #8B4513;
+    --text-gradient-end: #D2B48C;
+    --background-color: #ece2c7;
+    --primary-color: #8B4513;
+    --secondary-color: #FFDBB5;
+    --accent-color: #ce9f66;
+    --text-dark: #212529;
+
+    /* Fonts */
+    --font-primary: 'Poppins', sans-serif;
+
+    /* Layout (Note: --navbar-height is defined but not used in this file) */
+    --navbar-height: 61px;
+}
+
+html,
+body{
+  overflow-x: hidden;
+}
+
+/* Base body styles */
+body {
+    font-family: var(--font-primary);
+    font-weight: 400;
+    line-height: 1.6;
+    color: #222; /* A softer black for better readability */
+    background-color: var(--background-color);
+}
+
+
+/* --- 2. Typography --- */
+
+/* Default line-height for all headings */
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2;
+}
+
+/* Main page title */
+h1 {
+    font-weight: 800; /* ExtraBold */
+    font-size: 3.2rem;
+    letter-spacing: -0.02em;
+}
+
+/* Major section titles */
+h2 {
+    font-weight: 700; /* Bold */
+    font-size: 2.25rem;
+}
+
+/* Sub-section titles */
+h3 {
+    font-weight: 600; /* SemiBold */
+    font-size: 1.75rem;
+}
+
+/* Smaller labels or group titles */
+h4 {
+    font-weight: 600; /* SemiBold */
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Minor detail headings */
+h5, h6 {
+    font-weight: 500; /* Medium */
+    font-size: 1rem;
+}
+
+
+/* --- 3. Layout Components --- */
+
+/* Page Header (e.g., "User Guide") */
+.page-header {
+    border-bottom: 1px solid var(--accent-color);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+.page-header h1 {
+    color: var(--primary-color);
+}
+
+.page-header .lead {
+    font-weight: 400;
+}
+
+/* General Card Styling */
+.card {
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%; /* Ensures cards in the same row have equal height */
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.card-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e9ecef;
+    font-weight: 500;
+    padding: 1.25rem;
+}
+
+.card-header .card-title {
+    color: #343a40;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+
+/* --- 4. Specific Component Styles --- */
+
+/* Stat Cards (Top row of dashboard) */
+.stat-card .card-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stat-card .stat-icon {
+    font-size: 3.5rem;
+    opacity: 0.7;
+}
+
+.stat-card .stat-content {
+    text-align: right;
+}
+
+.stat-card .stat-title {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.stat-card .stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+/* Gradient backgrounds for stat cards */
+.bg-gradient-accuracy { background: linear-gradient(45deg, #1abc9c, #16a085); }
+.bg-gradient-precision { background: linear-gradient(45deg, #3498db, #2980b9); }
+.bg-gradient-f1score { background: linear-gradient(45deg, #9b59b6, #8e44ad); }
+
+
+/* Classification Report & Model Parameters */
+.classification-report pre {
+    background-color: #663f1a;
+    color: #ecf0f1;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    overflow-x: auto; /* Adds horizontal scroll only to this code block if needed */
+}
+
+.model-params .param-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.model-params .param-item:last-child {
+    border-bottom: none;
+}
+
+.model-params .param-label { color: #6c757d; }
+.model-params .param-value {
+    font-weight: 500;
+    color: #2c3e50;
+    background-color: #e9ecef;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.9rem;
+}
+
+/* Chart Container (Feature Importance, etc.) */
+.chart-container {
+    position: relative;
+    /* Fixed height is common for chart libraries but may need adjustment */
+    height: 600px; 
+    width: 100%;
+}
+
+
+/* --- 5. Responsive Design --- */
+@media (max-width: 768px) {
+    .page-header h1 {
+        font-size: 2.25rem;
+    }
+
+    .stat-card .stat-icon {
+        font-size: 2.5rem;
+    }
+
+    .stat-card .stat-value {
+        font-size: 2rem;
+    }
+
+    .chart-container {
+        height: 450px; /* Use a smaller height on mobile devices */
+    }
+}
