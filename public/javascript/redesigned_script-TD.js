@@ -119,9 +119,7 @@ async function updateLocationInfo(lat, lng) {
 
 
     try {
-        console.log("Testing thissisi");
         const [locationData, siteData] = await Promise.all([locationPromise, dataPromise]);
-        console.log("Testing thissisi 2");
 
         // --- 5. Process and store fetched data ---
         selectedLocation.name = locationData.display_name || "Unknown Location";
@@ -236,9 +234,33 @@ async function fetchWeatherData(lat, lon, date, time) {
     }
 }
 
-// ===================================
-// == CORRECTED JAVASCRIPT FUNCTION
-// ===================================
+
+// HELPER FUNCTIONS FOR CONVERTING SLOPE AND SOIL MOISTURE FOR USER READABILITY
+// ========================
+
+function convertSlope(slope) {
+    const slopeMap = {
+        1: "0-10 degrees",
+        2: "10-20 degrees",
+        3: "20-30 degrees",
+        4: "30-40 degrees",
+        5: "40-50 degrees",
+        6: "above 50 degrees"
+    };
+
+    return slopeMap[slope] || "Invalid slope data";
+}
+
+function convertSoilMoisture(soil_moisture) {
+    // Add a safety check for null/undefined/non-number values
+    if (soil_moisture == null || typeof soil_moisture !== 'number') {
+        return "N/A";
+    }
+    const percentage = soil_moisture * 100;
+    return Math.floor(percentage) + "%";
+}
+
+// ========================
 
 const chartForecastText = document.getElementsByClassName("chart-summary-text");
 
@@ -251,8 +273,12 @@ function populateReportSummary() {
     }
 
     // --- 2. Show the report section ---
-    const reportSection = document.getElementById("report-summary-section");
+    const reportSection = document.getElementById("report-sect");
     reportSection.style.display = "block";
+    scrollTopButton.style.display = "block";
+    // ADDED so that the report and the map are mutually exculsive
+    document.getElementById("main-cont").style.display = "none";
+
 
 
     // --- 3. Populate all text fields ---
@@ -261,9 +287,9 @@ function populateReportSummary() {
     document.getElementById("report-prediction-date").innerText = (selectedPredictionDate && selectedPredictionTime) ? `${selectedPredictionDate} at ${selectedPredictionTime}` : "N/A";
     document.getElementById("report-prediction").innerText = lastPredictionResult.prediction || "N/A";
     document.getElementById("report-confidence").innerText = lastPredictionResult.confidence || "N/A";
-    document.getElementById("report-slope").innerText = fetchedLocationData.slope ?? "N/A";
+    document.getElementById("report-slope").innerText = convertSlope(fetchedLocationData.slope) ?? "N/A";
     document.getElementById("report-soil-type").innerText = fetchedLocationData.soil_type_label || "N/A";
-    document.getElementById("report-soil-moisture").innerText = lastFetchedWeatherData.soil_moisture?.toFixed(1) ?? "N/A";
+    document.getElementById("report-soil-moisture").innerText = convertSoilMoisture(lastFetchedWeatherData.soil_moisture);
 
 
 
@@ -497,7 +523,7 @@ document.addEventListener("click", (e) => {
 });
 document.getElementById('search-btn-icon').addEventListener('click', () => searchInput.dispatchEvent(new Event('input')));
 // ===================================
-// == END OF SEARCH FUNCTIONALITY (Corrected & Enhanced)
+// == END OF SEARCH FUNCTIONALITY 
 // ===================================
 
 
@@ -789,8 +815,8 @@ Do you wish to proceed?`;
     const date_today = today.toISOString().split('T')[0];
 
 
-      let slopeReport;
-      let slopeCheck = fetchedLocationData?.slope;
+    let slopeReport;
+    let slopeCheck = fetchedLocationData?.slope;
 
     if (slopeCheck === 1){
         slopeReport = "below 10 degerees"
@@ -803,6 +829,8 @@ Do you wish to proceed?`;
     } else {
         slopeReport = "above 50 degrees"
     }
+
+   let soil_moisture_percent = Math.round((lastFetchedWeatherData?.soil_moisture ?? 0) * 100);
 
 
     console.log("slope to check: ", slopeCheck);
@@ -829,7 +857,7 @@ Do you wish to proceed?`;
         original_model_confidence: lastPredictionResult?.confidence ?? "Not run",
 
         // === Data from Weather API Fetch ===
-        soil_moisture: lastFetchedWeatherData?.soil_moisture,
+        soil_moisture: soil_moisture_percent,
         "rainfall-3_hr": lastFetchedWeatherData?.cumulative_rainfall?.['3_hr'],
         "rainfall-6_hr": lastFetchedWeatherData?.cumulative_rainfall?.['6_hr'],
         "rainfall-12_hr": lastFetchedWeatherData?.cumulative_rainfall?.['12_hr'],
@@ -927,22 +955,32 @@ Do you wish to proceed?`;
 let scrollTopButton = document.getElementById("scrollTopBtn");
 
 // When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function () {
-    scrollFunction();
-};
+// window.onscroll = function () {
+//     scrollFunction();
+// };
 
-function scrollFunction() {
-    // The threshold for showing the button (e.g., 100 pixels)
-    const showButtonThreshold = 500;
+// function scrollFunction() {
+//     // The threshold for showing the button (e.g., 100 pixels)
+//     const showButtonThreshold = 500;
 
-    if (document.body.scrollTop > showButtonThreshold || document.documentElement.scrollTop > showButtonThreshold) {
-        scrollTopButton.style.display = "block";
-    } else {
-        scrollTopButton.style.display = "none";
-    }
-}
+//     if (document.body.scrollTop > showButtonThreshold || document.documentElement.scrollTop > showButtonThreshold) {
+//         scrollTopButton.style.display = "block";
+//     } else {
+//         scrollTopButton.style.display = "none";
+//     }
+// }
+
+
 // When the user clicks on the button, scroll to the top of the document smoothly
 scrollTopButton.addEventListener("click", function () {
+    
+    document.getElementById("report-sect").style.display="none";
+    document.getElementById("main-cont").style.display = "flex";
+    
+     setTimeout(function() {
+        map.invalidateSize();
+    }, 100); // A 100ms delay is usually safe and unnoticeable.
+
     window.scrollTo({
         top: 0,
         behavior: 'smooth'
