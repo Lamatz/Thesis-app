@@ -6,6 +6,8 @@ from flask_cors import CORS
 import numpy as np
 import requests  
 import os
+import sys
+import platform
 from dotenv import load_dotenv
 from google import genai
 
@@ -22,29 +24,6 @@ def index():
     return app.send_static_file('index.html')
 
 
-@app.route("/debug")
-def debug_environment():
-    # The path where your api/index.py is running
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-
-    # The parent directory (where 'public' should be)
-    parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
-
-    # The full path to the file we are trying to serve
-    target_file_path = os.path.join(parent_dir, 'public', 'index.html')
-
-    debug_info = {
-        "message": "Vercel Environment Inspection",
-        "current_directory_path": current_dir,
-        "current_directory_contents": os.listdir(current_dir),
-        "parent_directory_path": parent_dir,
-        "parent_directory_contents": os.listdir(parent_dir),
-        "target_file_path": target_file_path,
-        "target_file_exists": os.path.exists(target_file_path)
-    }
-
-    # Return this info as a JSON response
-    return jsonify(debug_info)
 
 # --- Get the Geospatial Service URL from Environment Variables in Vercel ---
 GEOSPATIAL_API_URL = os.getenv("GEOSPATIAL_API_URL")
@@ -435,3 +414,73 @@ def generate_report():
             500,
         )
 
+
+
+# ==============================================================================
+# The Ultimate Debug Endpoint
+# ==============================================================================
+@app.route("/debug", methods=['GET', 'POST', 'PUT', 'DELETE'])
+def ultimate_debug_environment():
+    """
+    A comprehensive diagnostic endpoint to inspect the Vercel serverless environment.
+    """
+
+    # --- 1. File System Inspection ---
+    # We'll start from the project root (/var/task) and list everything recursively.
+    project_root = "/var/task"
+    file_tree = {}
+    try:
+        for root, dirs, files in os.walk(project_root):
+            # Create a clean path relative to the project root for readability
+            clean_root = root.replace(project_root, "") or "/"
+            file_tree[clean_root] = {
+                "directories": dirs,
+                "files": files
+            }
+    except Exception as e:
+        file_tree = {"error": f"Could not inspect file system: {e}"}
+
+
+    # --- 2. Environment Variables ---
+    # WARNING: This will expose ALL environment variables, including secrets.
+    # This is extremely useful for debugging but should be removed before
+    # sharing this endpoint publicly.
+    # environment_vars = dict(os.environ)
+
+
+    # --- 3. Incoming Request Details ---
+    # Inspect the request that triggered this function.
+    request_details = {
+        "method": request.method,
+        "url": request.url,
+        "path": request.path,
+        "headers": dict(request.headers),
+        "query_parameters": request.args.to_dict(),
+        "remote_ip": request.remote_addr
+    }
+    # Safely try to get JSON body, in case the request isn't JSON
+    try:
+        request_details["json_body"] = request.get_json()
+    except Exception:
+        request_details["json_body"] = "Not a valid JSON request or no body."
+
+
+    # --- 4. System Information ---
+    system_info = {
+        "python_version": sys.version,
+        "python_executable": sys.executable,
+        "platform": platform.platform(),
+        "working_directory": os.getcwd()
+    }
+
+
+    # --- Assemble the Final Report ---
+    debug_report = {
+        "message": "Vercel Comprehensive Environment Report",
+        "system_info": system_info,
+        "request_details": request_details,
+        "environment_variables": environment_vars,
+        "file_system_tree": file_tree,
+    }
+
+    return jsonify(debug_report)
