@@ -1,164 +1,311 @@
+/* ==========================================================================
+   1. Root Variables & Configuration
+   ========================================================================== */
 :root {
-  --text-color: #190809;
-  /* --background-color: #fcf5f5; */
-  --background-color: #ece2c7;
-  --primary-color: #603F26;
-  --secondary-color: #FFDBB5;
-  --accent-color: #ce9f66;
-  --card-color: #FAF8F2;
+  /* Color Palette */
+  --primary-color: #8B4513;      /* SaddleBrown - Main brand color for titles, buttons */
+  --secondary-color: #FFDBB5;    /* A light, complementary color */
+  --accent-color: #ce9f66;       /* A mid-tone accent */
+  --background-color: #ece2c7;   /* Main page background */
+  --text-color: #190809;         /* Main text color, almost black */
+  --text-dark: #212529;          /* A standard dark grey, good for contrast */
+  --border-color: #dee2e6;       /* Standard border color for cards, inputs */
+  --shadow-color: rgba(0, 0, 0, 0.075); /* A soft shadow color */
+
+  /* Typography */
+  --font-primary: 'Poppins', sans-serif;
+
+  /* Layout */
+  --navbar-height: 61px;
 }
 
 
-#guidePage {
-  /* background-color: ; */
-  background-color: #ece2c7;
-}
-
-
-.title-page {
-  color: #8B4513;
-}
-
-.card-header,
-.card-body,
-.guide-section {
-  background-color: var(--card-color);
+/* ==========================================================================
+   2. Base & Global Styles
+   ========================================================================== */
+html,
+body {
+  overflow-x: hidden;
 }
 
 body {
-  padding-top: 80px;
-  background-color: var(--background-color);
+  font-family: var(--font-primary);
+  font-weight: 400;
+  line-height: 1.6;
   color: var(--text-color);
-  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--background-color);
 }
 
 
-
-/* --- Tutorial Modal Styles --- */
-.tutorial-modal {
-  display: none;
-  /* Hidden by default */
-  position: fixed;
-  z-index: 1050;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
-  justify-content: center;
-  align-items: center;
-}
-
-.tutorial-modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 90%;
-  max-width: 400px;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.tutorial-modal-content h2 {
+/* ==========================================================================
+   3. Typography Hierarchy
+   ========================================================================== */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
   margin-top: 0;
+  /* Resetting margin for consistency */
+  margin-bottom: 0.5rem;
+}
+
+h1 {
+  font-weight: 800; /* ExtraBold */
+  font-size: 3.2rem;
+  letter-spacing: -0.02em;
   color: var(--primary-color);
 }
 
-.tutorial-modal-buttons {
-  margin-top: 20px;
+h2 {
+  font-weight: 700; /* Bold */
+  font-size: 2.25rem;
+}
+
+h3 {
+  font-weight: 600; /* SemiBold */
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-weight: 600; /* SemiBold */
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+h5, h6 {
+  font-weight: 500; /* Medium */
+  font-size: 1rem;
+}
+
+
+/* ==========================================================================
+   4. Layout & Main Components
+   ========================================================================== */
+.dashboard-main {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+/* --- Page Header & Controls --- */
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-header .lead {
+  font-weight: 400;
+}
+
+.header-controls {
   display: flex;
-  justify-content: space-around;
+  gap: 1rem;
+  align-items: center;
 }
 
-/* --- Shepherd Button & Tour Styles --- */
-.shepherd-button {
-  padding: .375rem .75rem !important;
-  border-radius: .25rem !important;
-  font-size: 1rem !important;
-  line-height: 1.5 !important;
-  cursor: pointer !important;
-  border: 1px solid transparent !important;
-}
-
-.shepherd-button.shepherd-button-primary {
-  color: #fff !important;
-  background-color: #6C4E31 !important;
-  border-color: #6C4E31 !important;
-}
-
-.shepherd-button.shepherd-button-primary:hover {
-  background-color: #533c27 !important;
-  border-color: #533c27 !important;
-}
-
-.shepherd-button.shepherd-button-secondary {
-  color: #6C4E31 !important;
-  background-color: transparent !important;
-  border-color: #6C4E31 !important;
-}
-
-.shepherd-button.shepherd-button-secondary:hover {
-  color: #fff !important;
-  background-color: #6C4E31 !important;
-  border-color: #6C4E31 !important;
-}
-
-.shepherd-modal-overlay {
-  z-index: 99998 !important;
-}
-
-.shepherd-element {
-  z-index: 99999 !important;
-}
-
-.my-custom-step-background {
+.control-item {
+  display: flex;
+  align-items: center;
   background-color: #fff;
-  color: var(--text-color);
-}
-
-.my-custom-step-background .shepherd-text {
-  color: var(--text-color) !important;
-}
-
-
-
-.chart-container {
-  width: 90%;
-  max-width: 800px;
-  background-color: #ffffff;
-  padding: 20px;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding-left: 15px;
+  flex-grow: 1;
+  max-width: 400px;
+}
+
+#regionSelect {
+  width: 100%;
+  padding: 12px 10px;
+  font-size: 1rem;
+  border: none;
+  background-color: transparent;
+  appearance: none;
+  cursor: pointer;
+}
+
+#resetFilters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f5f0e1;
+  background-color: var(--primary-color); /* Using variable */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+#resetFilters:hover {
+  background-color: #65320d; /* Consider making this a variable, e.g., --primary-color-dark */
 }
 
 
+/* --- Cards --- */
+.card {
+  border: none;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 15px var(--shadow-color);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  height: 100%;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: transparent;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.card-title {
+  font-weight: 600;
+}
+
+
+/* ==========================================================================
+   5. Map & Legend Component
+   ========================================================================== */
+#map-container {
+  position: relative;
+  height: 70vh;
+  max-height: 700px;
+  min-height: 450px;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+
+/* --- Legend Base Styles --- */
 .legend {
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 5px;
-    bottom: 30px;
-    right: 10px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  bottom: 40px;
+  left: 20px;
+  z-index: 1000; /* Ensure it's on top of map tiles */
+  background: rgba(255, 255, 255, 0.9);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s ease-in-out;
+  overflow: hidden;
+}
+
+.legend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.legend-header h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.legend-toggle {
+  background: none;
+  border: none;
+  padding: 0 5px;
+  cursor: pointer;
+  color: #555;
+}
+
+.legend-toggle i {
+  transition: transform 0.4s ease-in-out;
+}
+
+.legend-content {
+  max-height: 200px; /* A value larger than the content will ever be */
+  margin-top: 10px;
+  opacity: 1;
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out, opacity 0.3s ease, margin-top 0.4s ease;
+}
+
+.legend-content div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.legend-content div:last-child {
+  margin-bottom: 0;
+}
+
+.legend-content span {
+  flex-shrink: 0; /* Prevents the circle from shrinking */
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* --- Legend Collapsed State --- */
+.legend.is-collapsed {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.legend.is-collapsed .legend-content {
+  max-height: 0;
+  margin-top: 0;
+  opacity: 0;
+}
+
+.legend.is-collapsed .legend-toggle i {
+  transform: rotate(180deg);
+}
+
+
+/* ==========================================================================
+   6. Media Queries & Responsiveness
+   ========================================================================== */
+
+/* For Tablets and smaller devices (<= 992px) */
+@media (max-width: 992px) {
+  .page-header > .d-flex {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 1.5rem;
+  }
+
+  .header-controls {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+}
+
+/* For Mobile devices (<= 768px) */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .dashboard-main {
+    padding-top: 1rem;
+  }
+
+  .control-item {
+    max-width: 100%;
+  }
+
+  #map-container {
+    height: 60vh;
+    min-height: 400px;
+  }
+
+  .legend {
+    bottom: 10px;
+    left: 10px;
     padding: 10px;
-    position: absolute;
-    z-index: 1;
-    font-family: Arial, sans-serif;
-    line-height: 1.5;
-}
-
-.legend h4 {
-    margin: 0 0 10px;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.legend div span {
-    border-radius: 50%;
-    display: inline-block;
-    height: 12px;
-    width: 12px;
-    margin-right: 8px;
-    vertical-align: middle;
+    max-width: 180px;
+  }
 }

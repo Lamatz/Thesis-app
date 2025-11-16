@@ -1,102 +1,103 @@
-  :root {
-      --primary-brown: #8B4513;
-      --secondary-brown: #A0522D;
-      --light-brown: #D2B48C;
-      --dark-brown: #5C4033;
-  }
+    /* === VARIABLES & BASIC SETUP === */
+        :root {
+            --primary-brown: #8B4513;
+            --secondary-brown: #A0522D;
+            --light-brown: #D2B48C;
+            --dark-brown: #5C4033;
+        }
 
-  html {
-      height: 100%;
-  }
+        html {
+            height: 100%;
+        }
 
+        /* The dynamic padding will be set by JS, but this is a good fallback */
+        body {
+            padding-top: 61px; 
+        }
 
+        /* === NAVBAR POSITIONING & ANIMATION === */
+        #mainNavbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1051; /* Ensures navbar is on top */
+        }
 
-  /* 1. Positioning and Animation */
-  #mainNavbar {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      transition: transform 0.3s ease-in-out;
-      z-index: 1030;
-  }
+        #mainNavbar.navbar--hidden {
+            transform: translateY(-100%);
+        }
 
-  #mainNavbar.navbar--hidden {
-      transform: translateY(-100%);
-  }
+        /* === VISUAL POLISH & UX === */
+        #mainNavbar {
+            background: linear-gradient(to right, var(--dark-brown), var(--primary-brown));
+            /* A softer, more modern shadow */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            /* A subtle bottom border for separation */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Using higher specificity (#mainNavbar) to avoid !important */
+        #mainNavbar .navbar-brand {
+            font-weight: 700;
+            color: #fff;
+        }
 
-  /* So that the navbar won't overlap with the body (height of the navbar is 56px) */
-  body {
-      padding-top: 56px;
-  }
+        #mainNavbar .navbar-brand img {
+            /* Constrain the logo's height */
+            max-height: 40px;
+            margin-right: 10px;
+            /* Keeps the image from stretching */
+            object-fit: contain;
+        }
 
+        #mainNavbar .nav-link {
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.85); /* A slightly softer white */
+            position: relative; /* Needed for the underline effect */
+            transition: color 0.3s ease;
+            padding: 0.5rem 0.75rem; /* Standard Bootstrap padding */
+            margin-bottom: 0px; /* Give some space for the underline effect */
+        }
 
+        /* --- Hover and Focus States --- */
+        #mainNavbar .nav-link:hover,
+        #mainNavbar .nav-link:focus {
+            color: #fff;
+        }
 
-  .navbar {
-      background: linear-gradient(to right, var(--dark-brown), var(--primary-brown));
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
+        /* Add a subtle underline effect on hover */
+        #mainNavbar .nav-link::after {
+            content: '';
+            position: absolute;
+             bottom: -1px; /* Position the line below the link */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: var(--light-brown);
+            transition: width 0.3s ease-in-out;
+        }
 
-  .navbar-brand {
-      font-weight: 700;
-      color: #fff !important;
-  }
+        #mainNavbar .nav-link:hover::after,
+        #mainNavbar .nav-link:focus::after {
+            width: 80%; /* Animate the underline to 80% width */
+        }
 
-  /* .card {
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      border: none;
-      background-color: rgba(255, 255, 255, 0.9);
-  }
+        /* --- Active State Styling --- */
+        #mainNavbar .nav-link.active {
+            color: #fff;
+            font-weight: 700;
+        }
 
-  .card-header {
-      background: linear-gradient(to right, var(--primary-brown), var(--secondary-brown));
-      color: white;
-      border-radius: 10px 10px 0 0 !important;
-  } */
-
-  /* .btn-primary {
-      background-color: var(--primary-brown);
-      border-color: var(--primary-brown);
-  }
-
-  .btn-primary:hover {
-      background-color: var(--secondary-brown);
-      border-color: var(--secondary-brown);
-  }
-
-  #map {
-      height: 500px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      z-index: 1;
-  }
-
-  .location-info {
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  } */
-
-
-  /* 
-  .parameter-item {
-      margin-bottom: 15px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid #eee;
-  }
-
-  .parameter-item:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-      padding-bottom: 0;
-  } */
-
-  .loading-spinner {
-      display: none;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 1000;
-  }
+        /* Make the underline permanently visible for the active link */
+        #mainNavbar .nav-link.active::after {
+            width: 80%;
+        }
+        
+        /* Example content styling */
+        .content {
+            padding: 2rem;
+            min-height: 200vh; /* Make the page long enough to scroll */
+            background-color: #fdfaf6;
+        }

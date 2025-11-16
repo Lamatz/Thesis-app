@@ -6,6 +6,8 @@ from flask_cors import CORS
 import numpy as np
 import requests  
 import os
+import sys
+import platform
 from dotenv import load_dotenv
 from google import genai
 
@@ -21,30 +23,6 @@ load_dotenv()
 def index():
     return app.send_static_file('index.html')
 
-
-@app.route("/debug")
-def debug_environment():
-    # The path where your api/index.py is running
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-
-    # The parent directory (where 'public' should be)
-    parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
-
-    # The full path to the file we are trying to serve
-    target_file_path = os.path.join(parent_dir, 'public', 'index.html')
-
-    debug_info = {
-        "message": "Vercel Environment Inspection",
-        "current_directory_path": current_dir,
-        "current_directory_contents": os.listdir(current_dir),
-        "parent_directory_path": parent_dir,
-        "parent_directory_contents": os.listdir(parent_dir),
-        "target_file_path": target_file_path,
-        "target_file_exists": os.path.exists(target_file_path)
-    }
-
-    # Return this info as a JSON response
-    return jsonify(debug_info)
 
 
 # --- Get the Geospatial Service URL from Environment Variables in Vercel ---
@@ -309,7 +287,7 @@ def predict():
 # ==========================================================
 
 # In order to use this properly you need to first:
-# 1. Have an api key for the gemini model (you can use mine but I recommend you have you own so that mine doesn't reach the rate limit. AIzaSyB-rg3sokaltFw2IHB8eiR1hbjNFaGxMpQ )
+# 1. Have an api key for the gemini model
 # 2. create a ' .env ' file and the content should be ' GEMINI_API_KEY="your_api_key" '
 # 3. the .env file and the server.py file should be in the same directory/within the same folder
 # 4. It should now work but if it doesn't make sure to save everything and reload you work
@@ -358,7 +336,7 @@ def generate_report():
 
             - **Geological Assessment:** [Provide a brief description of the area's geology, e.g., "The area is underlain by [rock formation], which is known for its susceptibility to weathering and erosion."]
             - **Soil Type:** {data.get('soil_type', 'N/A')} 
-            - **Slope Angle (degrees):** {data.get('slope', 'N/A')} if the slope is 1 then the slope is less than 10 degress it is 2 the slope value is between 10 to 20 degress if it is 3 then the value is between 20 to 30 degrees if the value is 4 then the value is between 30 to 40 degress if it is 5 then the value is 40 to 50 degress if it is 6 then the value is more than 50 degrees
+            - **Slope Angle (degrees):** {data.get('slope', 'N/A')}
  
 
             ---
@@ -436,3 +414,67 @@ def generate_report():
             500,
         )
 
+
+
+# ==============================================================================
+# The Ultimate Debug Endpoint
+# ==============================================================================
+@app.route("/debug", methods=['GET', 'POST', 'PUT', 'DELETE'])
+def ultimate_debug_environment():
+    """
+    A comprehensive diagnostic endpoint to inspect the Vercel serverless environment.
+    """
+
+    # --- 1. File System Inspection ---
+    # We'll start from the project root (/var/task) and list everything recursively.
+    project_root = "/var/task"
+    file_tree = {}
+    try:
+        for root, dirs, files in os.walk(project_root):
+            # Create a clean path relative to the project root for readability
+            clean_root = root.replace(project_root, "") or "/"
+            file_tree[clean_root] = {
+                "directories": dirs,
+                "files": files
+            }
+    except Exception as e:
+        file_tree = {"error": f"Could not inspect file system: {e}"}
+
+
+
+    # --- 3. Incoming Request Details ---
+    # Inspect the request that triggered this function.
+    request_details = {
+        "method": request.method,
+        "url": request.url,
+        "path": request.path,
+        "headers": dict(request.headers),
+        "query_parameters": request.args.to_dict(),
+        "remote_ip": request.remote_addr
+    }
+    # Safely try to get JSON body, in case the request isn't JSON
+    try:
+        request_details["json_body"] = request.get_json()
+    except Exception:
+        request_details["json_body"] = "Not a valid JSON request or no body."
+
+
+    # --- 4. System Information ---
+    system_info = {
+        "python_version": sys.version,
+        "python_executable": sys.executable,
+        "platform": platform.platform(),
+        "working_directory": os.getcwd()
+    }
+
+
+    # --- Assemble the Final Report ---
+    debug_report = {
+        "message": "Vercel Comprehensive Environment Report",
+        "system_info": system_info,
+        "request_details": request_details,
+        # "environment_variables": environment_vars,
+        "file_system_tree": file_tree,
+    }
+
+    return jsonify(debug_report)

@@ -1,0 +1,180 @@
+/* 1. GLOBAL CONFIGURATION & VARIABLES
+   - Consolidated all variables into a single :root block.
+   - Added an RGB version of the primary color for use in box-shadows.
+*/
+:root {
+    /* Colors */
+    --primary-color: #8B4513;
+    --primary-color-rgb: 139, 69, 19; /* For use in rgba() */
+    --secondary-color: #6c757d;
+    --accent-color: #ce9f66;
+    --background: #ece2c7;
+    --text-dark: #212529;
+    --text-soft-black: #222;
+
+    /* Gradients */
+    --text-gradient-start: #8B4513;
+    --text-gradient-end: #D2B48C;
+
+    /* Typography */
+    --font-primary: 'Poppins', sans-serif;
+
+    /* Layout */
+    --navbar-height: 61px;
+}
+
+/* 2. BASE & TYPOGRAPHY
+   - Global styles for body, headings, and other base elements.
+*/
+body {
+    font-family: var(--font-primary);
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--text-soft-black);
+    background-color: var(--background); /* Set a global background color */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2;
+    margin-top: 0; /* Good practice to reset top margin */
+}
+
+h1 {
+    font-weight: 800; /* ExtraBold */
+    font-size: 3.2rem;
+    letter-spacing: -0.02em;
+    color: var(--primary-color); /* H1s often share the primary color */
+}
+
+h2 {
+    font-weight: 700; /* Bold */
+    font-size: 2.25rem;
+}
+
+h3 {
+    font-weight: 600; /* SemiBold */
+    font-size: 1.75rem;
+}
+
+h4 {
+    font-weight: 600; /* SemiBold */
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+h5, h6 {
+    font-weight: 500; /* Medium */
+    font-size: 1rem;
+}
+
+.lead {
+    font-weight: 400; /* Standardize lead paragraphs */
+}
+
+/* 3. LAYOUT & NAVIGATION
+*/
+#guideNav {
+    top: 70px; /* Assumes position: sticky; is applied elsewhere */
+}
+
+#guideNav .active {
+    background-color: var(--accent-color);
+    border: none;
+}
+
+/* 4. COMPONENT STYLES
+   - Reusable components like cards, lists, tips, and accordions.
+*/
+
+/* Cards */
+.guide-section .card {
+    border: none;
+    border-radius: 0.75rem;
+    padding: 2rem; /* Apply padding to the card instead of the body for more flexibility */
+}
+
+/* Styled Lists */
+.list-styled {
+    padding-left: 1.5rem;
+}
+
+.list-styled li {
+    margin-bottom: 0.5rem;
+}
+
+/* Tip Box */
+.tip-box {
+    background-color: #e9ecef;
+    border-left: 4px solid var(--primary-color);
+    padding: 1rem;
+    border-radius: 0.25rem;
+    font-size: 0.9rem;
+}
+
+/* Step Indicators (Refactored to be DRY) */
+.step-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 50%;
+    color: white;
+    font-weight: 700;
+    margin-right: 1rem;
+}
+
+.step-indicator.number {
+    width: 35px;
+    height: 35px;
+    background-color: var(--primary-color);
+}
+
+.step-indicator.circle {
+    width: 30px;
+    height: 30px;
+    font-size: 1.1em;
+    /* Note: background-color will need to be applied via a utility class or specific selector */
+}
+
+
+/* Tables */
+.table {
+    margin-top: 1.5rem;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* Accordion (FAQ) */
+.accordion-item {
+    border: 1px solid #dee2e6;
+    margin-bottom: 0.5rem;
+    border-radius: 0.5rem !important; /* !important may be needed to override Bootstrap */
+    overflow: hidden; /* Recommended with border-radius on parent */
+}
+
+.accordion-button {
+    font-weight: 600;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #e7f1ff; /* Consider making this a CSS variable */
+    color: var(--primary-color);
+}
+
+.accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(var(--primary-color-rgb), 0.25); /* Brand-consistent focus ring */
+}
+
+/* 5. RESPONSIVE DESIGN
+*/
+@media (max-width: 991.98px) {
+    .side-nav {
+        position: static;
+        margin-bottom: 2rem;
+        border: 1px solid #dee2e6;
+        border-radius: 0.5rem;
+    }
+}

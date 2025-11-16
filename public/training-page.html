@@ -9,25 +9,25 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
 
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Bootstrap Icons CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
 
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@1.2.0/dist/chartjs-chart-matrix.min.js"></script>
-    <script
-        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.1.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
 
     <!-- Custom CSS HERE -->
-    <!-- <link rel="stylesheet" href="css/homepage_style-v2.css"> -->
-    <link rel="stylesheet" href="css/navbar-style.css">
-    <link rel="stylesheet" href="css/training-page.css">
+
+    <link rel="stylesheet" href="../css/navbar-style.css">
+    <link rel="stylesheet" href="../css/training-page-style.css">
 
 
 </head>
@@ -35,23 +35,26 @@
 <body>
 
 
-    <!-- Navbar -->
-    <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark ">
+        <!-- Navbar -->
+    <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand d-flex justify-content-center align-items-center href">
-                <!-- <i class="fas fa-mountain me-2"></i>Two Steps Ahead -->
-                <img src="icons/thesis-logo-v2-try1.png" alt="logo">Two Steps Ahead
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="../icons/thesis-logo-v2-try1.png" alt="Two Steps Ahead Logo">
+                <span class="d-none d-sm-inline ms-2">Two Steps Ahead</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto d-flex gap-3">
                     <li class="nav-item">
-                        <a class="nav-link " href="home_v2.html"><i class="fas fa-home me-1"></i> Home</a>
+                        <a class="nav-link " href="index.html"><i class="fas fa-home me-1"></i> 
+                            Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html"><i class="fa-solid fa-map-location-dot me-1"></i></i>
+                        <a class="nav-link " aria-current="page" href="dynamic-map-v2.html"><i
+                                class="fa-solid fa-map-location-dot me-1"></i>
                             Dynamic Map</a>
                     </li>
                     <li class="nav-item">
@@ -59,236 +62,195 @@
                             User Guide</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="dashboard-page.html"><i class="bi bi-grid-1x2-fill me-1"></i></i>
+                        <a class="nav-link" href="dashboard-page.html"><i class="bi bi-grid-1x2-fill me-1"></i>
                             Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="training-page.html"><i
-                                class="bi bi-diagram-3-fill me-1"></i></i> Training Result</a>
+                        <a class="nav-link active" href="#"><i class="bi bi-diagram-3-fill me-1"></i>
+                            Training Result</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-
     <!-- END OF NAVBAR -->
 
-    <!-- TRAINING PAGE -->
-    <div id="trainingPage" class="page-content" style="display: block;">
-        <div class="container py-4">
-            <div class="row mb-4">
-                <div class="col-12">
-                    <h1 class="display-4 fw-bold title-page">Machine Learning Model Training</h1>
-                    <p class="lead text-muted">Training results and model performance metrics</p>
-                </div>
-            </div>
+    <!-- Main Content -->
+    <main class="container py-5">
 
-            <!-- Training Status -->
-            <div class="row g-4 mb-4">
-                <div class="col-md-4">
-                    <div class="card bg-gradient-primary text-white">
-                        <div class="card-body text-center placeholder-img">
-                            <img src="icons/accuracy.png" alt="placeholder image">
+        <!-- Page Header -->
+        <header class="page-header text-center">
+            <h1 class="display-4 fw-bold">Model Training Performance</h1>
+            <p class="lead text-muted">An overview of the machine learning model's performance metrics and results.</p>
+        </header>
+
+        <!-- Top Statistics Section -->
+        <section class="mb-5">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card stat-card bg-gradient-accuracy text-white">
+                        <div class="card-body">
+                            <div class="stat-icon"><i class="bi bi-check2-circle"></i></div>
+                            <div class="stat-content">
+                                <h6 class="stat-title">ACCURACY</h6>
+                                <p class="stat-value mb-0">90.6%</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card bg-gradient-success text-white">
-                        <div class="card-body text-center placeholder-img">
-                            <img src="icons/f1-score.png" alt="placeholder image">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card stat-card bg-gradient-precision text-white">
+                        <div class="card-body">
+                            <div class="stat-icon"><i class="bi bi-bullseye"></i></div>
+                            <div class="stat-content">
+                                <h6 class="stat-title">AVG. PRECISION</h6>
+                                <p class="stat-value mb-0">0.91</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-md-4">
-                    <div class="card bg-gradient-info text-white">
-                        <div class="card-body text-center placeholder-img">
-                            <img src="icons/precision.png" alt="placeholder image">
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="row g-4 mb-4">
-                <div class="col-md-4 ">
-                    <div class="card text-white ">
-                        <div class="card-body text-center h-100 placeholder-img">
-                            <!-- <canvas id="learningCurveChart"></canvas> -->
-
-                            <img src="icons/accuracy.png" alt="placeholder image">
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card text-white">
-                        <div class="card-body text-center placeholder-img">
-                            <!-- <canvas id="rocCurveChart"></canvas> -->
-
-                            <img src="icons/roc.png" alt="placeholder image">
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 ">
-                    <div class="card text-white  ">
-                        <div class="card-body text-center h-100 placeholder-img">
-                            <!-- <canvas id="confusionMatrixChart"></canvas> -->
-
-
-
-                            <img src="icons/matrix.png" alt="placeholder image">
-
+                <div class="col-lg-4 col-md-12"> <!-- Full width on medium screen if only 3 items -->
+                    <div class="card stat-card bg-gradient-f1score text-white">
+                        <div class="card-body">
+                            <div class="stat-icon"><i class="bi bi-graph-up-arrow"></i></div>
+                            <div class="stat-content">
+                                <h6 class="stat-title">F1-SCORE</h6>
+                                <p class="stat-value mb-0">0.91</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-        </div>
 
-        <div class="container">
-            <!-- Training Metrics -->
-            <div class="row g-4 mb-4">
-                <div class="col-lg-8">
-                    <div class="card shadow-md">
+        <!-- Charts Section -->
+        <section class="mb-5">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">
-                                <i class="bi bi-graph-up me-2"></i>Classification Report
-                            </h5>
+                            <h5 class="card-title mb-0"><i class="bi bi-graph-up me-2"></i>Learning Curve</h5>
                         </div>
-                        <div class="card-body d-flex justify-content-center align-items-center">
-                            <pre>
-Classification Report:
-            precision    recall  f1-score   support
+                        <!-- Use flex utilities for perfect centering -->
+                        <div class="card-body d-flex align-items-center justify-content-center p-3">
+                            <img src="../icons/accuracy.png" class="img-fluid rounded"
+                                alt="Learning Curve Chart">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0"><i class="bi bi-bezier me-2"></i>ROC Curve</h5>
+                        </div>
+                        <div class="card-body d-flex align-items-center justify-content-center p-3">
+                            <img src="../icons/roc.png" class="img-fluid rounded" alt="ROC Curve Chart">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0"><i class="bi bi-table me-2"></i>Confusion Matrix</h5>
+                        </div>
+                        <div class="card-body d-flex align-items-center justify-content-center p-3">
+                            <img src="../icons/matrix.png" class="img-fluid rounded"
+                                alt="Confusion Matrix Heatmap">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        0       0.88      0.94      0.91       304
-        1       0.93      0.88      0.90       386
 
-accuracy                            0.91       618
-macro avg       0.91      0.91      0.91       618
-weighted avg    0.91      0.91      0.91       618
+        <!-- Detailed Reports Section -->
+        <section class="mb-5">
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0"><i class="bi bi-file-earmark-text me-2"></i>Classification
+                                Report</h5>
+                        </div>
+                        <div class="card-body classification-report">
+                            <pre class="text-center">
+              precision    recall  f1-score   support
 
-Accuracy: 0.9065573770491804</pre>
+          0       0.88      0.94      0.91       304
+          1       0.93      0.88      0.90       386
+
+   accuracy                           0.91       618
+  macro avg       0.91      0.91      0.91       618
+weighted avg      0.91      0.91      0.91       618
+</pre>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="card shadow-md">
+                    <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">
-                                <i class="bi bi-list-check me-2"></i>Model Parameters
-                            </h5>
+                            <h5 class="card-title mb-0"><i class="bi bi-sliders me-2"></i>Model Parameters</h5>
                         </div>
                         <div class="card-body">
                             <div class="model-params">
-                                <div class="param-item mb-3">
-                                    <label class="form-label">Algorithm</label>
-                                    <div class="fw-bold">Random Forest</div>
+                                <div class="param-item">
+                                    <span class="param-label">Algorithm</span>
+                                    <span class="param-value">Random Forest</span>
                                 </div>
-                                <div class="param-item mb-3">
-                                    <label class="form-label">Features</label>
-                                    <div class="fw-bold">4 (Rainfall, Soil, Slope, Type)</div>
+                                <div class="param-item">
+                                    <span class="param-label">Features</span>
+                                    <span class="param-value">4</span>
                                 </div>
-                                <div class="param-item mb-3">
-                                    <label class="form-label">Epochs</label>
-                                    <div class="fw-bold">100</div>
+                                <div class="param-item">
+                                    <span class="param-label">Test Size</span>
+                                    <span class="param-value">20%</span>
                                 </div>
-                                
+                                <div class="param-item">
+                                    <span class="param-label">Estimators</span>
+                                    <span class="param-value">100</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Confusion Matrix & Feature Importance -->
+
+        <!-- Feature Importance Section -->
+        <section>
             <div class="row g-4">
-                <!-- <div class="col-lg-6">
-                    <div class="card shadow-md">
+                <div class="col-12">
+                    <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">
-                                <i class="bi bi-grid-3x3-gap-fill me-2"></i>Confusion Matrix
+                            <h5 class="card-title mb-0"><i class="bi bi-bar-chart-line-fill me-2"></i>Feature Importance
                             </h5>
                         </div>
                         <div class="card-body">
-                            <div class="confusion-matrix">
-                                <table class="table table-bordered text-center">
-                                    <thead>
-                                        <tr>
-                                            <th colspan="2" rowspan="2"></th>
-                                            <th colspan="4" class="bg-light">Predicted</th>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-success text-white">Low</th>
-                                            <th class="bg-warning text-white">Moderate</th>
-                                            <th class="bg-danger text-white">High</th>
-                                            <th class="bg-dark text-white">Extreme</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th rowspan="4" class="bg-light align-middle">Actual</th>
-                                            <th class="bg-success text-white">Low</th>
-                                            <td class="fw-bold">2847</td>
-                                            <td>124</td>
-                                            <td>23</td>
-                                            <td>6</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-warning text-white">Moderate</th>
-                                            <td>89</td>
-                                            <td class="fw-bold">1967</td>
-                                            <td>156</td>
-                                            <td>12</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-danger text-white">High</th>
-                                            <td>12</td>
-                                            <td>98</td>
-                                            <td class="fw-bold">1654</td>
-                                            <td>45</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-dark text-white">Extreme</th>
-                                            <td>3</td>
-                                            <td>8</td>
-                                            <td>67</td>
-                                            <td class="fw-bold">456</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <div class="chart-container">
+                                <canvas id="featureImportanceChart"></canvas>
                             </div>
-                        </div>
-                    </div>
-                </div> -->
-                <div class="col-lg-12">
-                    <div class="card shadow-md">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">
-                                <i class="bi bi-bar-chart me-2"></i>Feature Importance
-                            </h5>
-                        </div>
-                        <div class="card-body chart-container">
-                            <canvas id="featureImportanceChart"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
-            
-        </div>
-    </div>
+        </section>
+
+
+
+    </main>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 
-    <script src="javascript/navbar.js"></script>
-    <script src="javascript/training-results-chart.js"></script>
+    <script src="../javascript/navbar.js"></script>
+    <script src="../javascript/training-results-chart.js"></script>
+
 </body>
 
 </html>
