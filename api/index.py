@@ -25,7 +25,11 @@ CORS(app)
 # This is the only route we will test
 @app.route("/")
 def index():
-    return app.send_static_file('index.html')
+    return app.send_static_file('../public/index.html')
+
+@app.route("/test")
+def test():
+    return app.send_static_file('../public/home_v2.html')
 
 # Add this new route for debugging purposes
 @app.route("/debug")
