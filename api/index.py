@@ -17,7 +17,7 @@ import os
 # from google import genai # Commented out
 
 # --- App Initialization ---
-app = Flask(__name__, static_folder='../public', static_url_path='')
+app = Flask(__name__)
 CORS(app)
 # load_dotenv() # Commented out
 # genai.configure(...) # Make sure this is commented out if you have it
@@ -25,11 +25,15 @@ CORS(app)
 # This is the only route we will test
 @app.route("/")
 def index():
-    return app.send_static_file('../public/index.html')
+    return "hello world"
 
 @app.route("/test")
 def test():
     return app.send_static_file('./../home_v2.html')
+
+@app.route('/about')
+def about():
+    return 'About'
 
 # Add this new route for debugging purposes
 @app.route("/debug")
