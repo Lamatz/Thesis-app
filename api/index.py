@@ -284,7 +284,7 @@ def predict():
 # ==========================================================
 
 # In order to use this properly you need to first:
-# 1. Have an api key for the gemini model (you can use mine but I recommend you have you own so that mine doesn't reach the rate limit. AIzaSyB-rg3sokaltFw2IHB8eiR1hbjNFaGxMpQ )
+# 1. Have an api key for the gemini model
 # 2. create a ' .env ' file and the content should be ' GEMINI_API_KEY="your_api_key" '
 # 3. the .env file and the server.py file should be in the same directory/within the same folder
 # 4. It should now work but if it doesn't make sure to save everything and reload you work
@@ -333,7 +333,7 @@ def generate_report():
 
             - **Geological Assessment:** [Provide a brief description of the area's geology, e.g., "The area is underlain by [rock formation], which is known for its susceptibility to weathering and erosion."]
             - **Soil Type:** {data.get('soil_type', 'N/A')} 
-            - **Slope Angle (degrees):** {data.get('slope', 'N/A')} if the slope is 1 then the slope is less than 10 degress it is 2 the slope value is between 10 to 20 degress if it is 3 then the value is between 20 to 30 degrees if the value is 4 then the value is between 30 to 40 degress if it is 5 then the value is 40 to 50 degress if it is 6 then the value is more than 50 degrees
+            - **Slope Angle (degrees):** {data.get('slope', 'N/A')}
  
 
             ---
