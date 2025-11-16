@@ -9,80 +9,84 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Bootstrap Icons CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+     <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+
 
     <!-- Custom CSS HERE -->
-    <!-- <link rel="stylesheet" href="css/homepage_style-v2.css"> -->
-    <link rel="stylesheet" href="css/navbar-style.css">
-    <link rel="stylesheet" href="css/guidePage.css">
+    <link rel="stylesheet" href="../css/navbar-style.css">
+    <link rel="stylesheet" href="../css/user-guide-page-style.css">
 
 
 </head>
 
-<body>
+<body data-bs-spy="scroll" data-bs-target="#guideNav" data-bs-offset="120">
 
     <!-- Navbar -->
-    <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark ">
+    <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand d-flex justify-content-center align-items-center href">
-                <!-- <i class="fas fa-mountain me-2"></i>Two Steps Ahead -->
-                <img src="icons/thesis-logo-v2-try1.png" alt="logo">Two Steps Ahead
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="../icons/thesis-logo-v2-try1.png" alt="Two Steps Ahead Logo">
+                <span class="d-none d-sm-inline ms-2">Two Steps Ahead</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto d-flex gap-3">
                     <li class="nav-item">
-                        <a class="nav-link " href="home_v2.html"><i class="fas fa-home me-1"></i> Home</a>
+                        <a class="nav-link " href="../Revised-Pages/index.html"><i class="fas fa-home me-1"></i>
+                            Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html"><i class="fa-solid fa-map-location-dot me-1"></i></i>
+                        <a class="nav-link " aria-current="page" href="../Revised-Pages/dynamic-map-v2.html"><i
+                                class="fa-solid fa-map-location-dot me-1"></i>
                             Dynamic Map</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="user-guide-page.html"><i
-                                class="fa-solid fa-circle-info me-1"></i> User Guide</a>
+                        <a class="nav-link active" href="#"><i class="fa-solid fa-circle-info me-1"></i>
+                            User Guide</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="dashboard-page.html"><i class="bi bi-grid-1x2-fill me-1"></i></i>
+                        <a class="nav-link" href="../Revised-Pages/dashboard-page.html"><i
+                                class="bi bi-grid-1x2-fill me-1"></i>
                             Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="training-page.html"><i class="bi bi-diagram-3-fill me-1"></i></i>
+                        <a class="nav-link" href="../Revised-Pages/training-page.html"><i
+                                class="bi bi-diagram-3-fill me-1"></i>
                             Training Result</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-
     <!-- END OF NAVBAR -->
 
     <!-- USER GUIDE PAGE -->
-    <div id="guidePage" class="page-content" style="display: block;">
-        <div class="container py-4">
-            <div class="row mb-4">
-                <div class="col-12">
-                    <h1 class="display-4 fw-bold title-page">User Guide</h1>
-                    <p class="lead text-muted">Learn how to use the Philippines Landslide Forecasting System</p>
-                </div>
+    <main class="main-content">
+        <div class="container py-5">
+            <div class="page-header pb-4 mb-5">
+                <h1 class="display-4 fw-bold title-page">User Guide</h1>
+                <p class="lead text-muted">Learn how to use the Philippines Landslide Forecasting System</p>
             </div>
 
             <div class="row">
+
+                <!-- Navigation Menu -->
                 <div class="col-lg-3">
-                    <!-- Navigation Menu -->
-                    <div class="card shadow-sm sticky-top" style="top: 70px;">
+                    <nav id="guideNav" class="card side-nav sticky-top">
                         <div class="card-header">
                             <h6 class="card-title mb-0">Quick Navigation</h6>
                         </div>
@@ -96,6 +100,9 @@
                             <a href="#predictions" class="list-group-item list-group-item-action">
                                 <i class="bi bi-graph-up me-2"></i>Making Predictions
                             </a>
+                            <a href="#time-period" class="list-group-item list-group-item-action">
+                                <i class="bi bi-clock me-2"></i>Time Period
+                            </a>
                             <a href="#understanding-results" class="list-group-item list-group-item-action">
                                 <i class="bi bi-info-circle me-2"></i>Understanding Results
                             </a>
@@ -106,16 +113,17 @@
                                 <i class="bi bi-question-circle me-2"></i>FAQ
                             </a>
                         </div>
-                    </div>
-
+                    </nav>
                 </div>
 
+                <!-- Guide Content -->
                 <div class="col-lg-9">
+                    
                     <!-- Getting Started Section -->
                     <div id="getting-started" class="guide-section mb-5">
                         <div class="card shadow-sm">
-                            <div class="card-body">
-                                <h2 class="card-title text-primary">
+                            <div class="card-body p-4">
+                                <h2 class="card-title text-primary mb-3">
                                     <i class="bi bi-play-circle me-2"></i>Getting Started
                                 </h2>
                                 <p class="lead">Welcome to the Philippines Landslide Forecasting System! This guide
@@ -124,7 +132,7 @@
                                 <h5 class="mt-4">What is this system?</h5>
                                 <p>Our system uses advanced AI and machine learning to predict landslide risks
                                     across the Philippines. It analyzes multiple factors including:</p>
-                                <ul>
+                                <ul class="list-styled">
                                     <li><strong>Rainfall data</strong> - Both cumulative and intensity measurements
                                     </li>
                                     <li><strong>Soil moisture</strong> - Ground saturation levels</li>
@@ -136,142 +144,223 @@
                     </div>
 
                     <!-- Using the Map Section -->
-                    <div id="using-map" class="guide-section mb-5">
+                    <section id="using-map" class="guide-section mb-5">
                         <div class="card shadow-sm">
-                            <div class="card-body">
-                                <h2 class="card-title text-success">
+                            <div class="card-body p-4">
+                                <h2 class="card-title text-success mb-3">
                                     <i class="bi bi-map me-2"></i>Using the Map
                                 </h2>
 
                                 <h5 class="mt-4">1. Selecting a Location</h5>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-7">
                                         <p>You can select a location in two ways:</p>
                                         <ul>
-                                            <li><strong>Search:</strong> Type a city name in the search box (e.g.,
-                                                "Manila", "Cebu", "Davao")</li>
+                                            <li><strong>Search:</strong> Type a city name in the search box
+                                                (e.g.,"Manila", "Cebu", "Davao")</li>
                                             <li><strong>Click:</strong> Click anywhere on the map to select that
                                                 location</li>
                                         </ul>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="p-3 rounded">
-                                            <strong>Tip:</strong> The map covers the entire Philippines. You can
-                                            zoom in/out and pan around to explore different areas.
+                                    <div class="col-md-5">
+                                        <div class="tip-box">
+                                            <i class="bi bi-lightbulb-fill me-2"></i><strong>Tip:</strong> The map
+                                            covers the entire Philippines. You can zoom in/out and pan around to explore
+                                            different areas.
                                         </div>
                                     </div>
                                 </div>
-
                                 <h5 class="mt-4">2. Understanding Map Markers</h5>
-                                <div class="row">
-                                    <div class="col-md-12 ">
-                                        <p>Above the marker, information about the selected or searched location is
-                                            displayed.</p>
-                                        <ul>
-                                            <li><strong>Location: </strong> This displays the location name</li>
-                                            <li><strong>Slope: </strong> This displays the slope angle of the location
-                                            </li>
-                                            <li><strong>Soil: </strong> This displays the soil composition of the
-                                                location</li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                <p>When a location is selected, key geospatial data is displayed:</p>
+                                <ul class="list-styled">
+                                    <li><strong>Location: </strong> This displays the location name</li>
+                                    <li><strong>Slope: </strong> This displays the slope angle of the location</li>
+                                    <li><strong>Soil: </strong> This displays the soil composition of the location</li>
+                                </ul>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
                     <!-- Making Predictions Section -->
-                    <div id="predictions" class="guide-section mb-5">
+                    <section id="predictions" class="guide-section mb-5">
                         <div class="card shadow-sm">
-                            <div class="card-body">
-                                <h2 class="card-title text-warning">
+                            <div class="card-body p-4">
+                                <h2 class="card-title text-warning mb-3">
                                     <i class="bi bi-graph-up me-2"></i>Making Predictions
                                 </h2>
 
-                                <h5 class="mt-4">Step-by-Step Process</h5>
+
                                 <div class="row">
                                     <div class="col-md-6">
+                                        <h5 class="mt-2 mb-4">Step-by-Step Process</h5>
+
                                         <div class="step-item d-flex mb-3">
-                                            <div class="step-number bg-primary text-white rounded-circle me-3 d-flex align-items-center justify-content-center"
-                                                style="width: 30px; height: 30px;">1</div>
+                                            <div class="step-indicator number bg-primary me-3 ">
+                                                1
+                                            </div>
                                             <div>
                                                 <strong>Select Location</strong>
-                                                <p class="mb-0 text-muted">Search or click on the map</p>
+                                                <p class="mb-0 text-muted small">Search or click on the map</p>
                                             </div>
                                         </div>
                                         <div class="step-item d-flex mb-3">
-                                            <div class="step-number bg-success text-white rounded-circle me-3 d-flex align-items-center justify-content-center"
-                                                style="width: 30px; height: 30px;">2</div>
+                                            <div class="step-indicator number bg-success me-3 ">
+                                                2
+                                            </div>
                                             <div>
                                                 <strong>Choose Date</strong>
-                                                <p class="mb-0 text-muted">Select forecast date (up to 5 days ahead)
+                                                <p class="mb-0 text-muted small">Select forecast date (up to 5 days
+                                                    ahead)
                                                 </p>
                                             </div>
                                         </div>
                                         <div class="step-item d-flex mb-3">
-                                            <div class="step-number bg-warning text-white rounded-circle me-3 d-flex align-items-center justify-content-center"
-                                                style="width: 30px; height: 30px;">3</div>
+                                            <div class="step-indicator number bg-warning me-3 ">
+                                                3
+                                            </div>
                                             <div>
                                                 <strong>Select Period</strong>
-                                                <p class="mb-0 text-muted">Choose from 3hrs to 5 days</p>
+                                                <p class="mb-0 text-muted small">Choose from 3hrs to 5 days</p>
                                             </div>
                                         </div>
                                         <div class="step-item d-flex">
-                                            <div class="step-number bg-danger text-white rounded-circle me-3 d-flex align-items-center justify-content-center"
-                                                style="width: 30px; height: 30px;">4</div>
+                                            <div class="step-indicator number bg-danger me-3 ">
+                                                4
+                                            </div>
                                             <div>
                                                 <strong>Get Prediction</strong>
-                                                <p class="mb-0 text-muted">Click "Predict Landslide "</p>
+                                                <p class="mb-0 text-muted small">Click "Predict Landslide "</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="p-3 rounded">
-                                            <h6>Available Time Periods:</h6>
-                                            <ul class="mb-0">
-                                                <li>3 Hours - Short-term immediate risk</li>
-                                                <li>6 Hours - Extended immediate risk</li>
-                                                <li>12 Hours - Half-day forecast</li>
-                                                <li>1 Day - Daily forecast</li>
-                                                <li>3 Days - Medium-term planning</li>
-                                                <li>5 Days - Long-term planning</li>
+                                    <div class="col-lg-6 mt-4 mt-lg-0">
+                                        <div class="tip-box">
+                                            <h6 class="fw-bold">Available Time Periods:</h6>
+                                            <ul class="mb-0 small">
+                                                <li> <strong>3 Hours - Urgent / Immediate Risk</strong><br><em>Use for
+                                                        immediate safety decisions.</em></li>
+                                                <li><strong>6 Hours - Extended immediate risk</strong><br><em>Use for
+                                                        advanced warnings to specific areas.</em></li>
+                                                <li><strong>12 Hours - Half-day forecast</strong><br><em>Use for making
+                                                        decisions that affect a whole day.</em></li>
+                                                <li><strong>1 Day - Full day forecast</strong><br><em>Use for strategic
+                                                        planning and general awareness.</em></li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
-                    <!-- Understanding Results Section -->
-                    <div id="understanding-results" class="guide-section mb-5">
+
+
+                    <!-- TIME PERIOD SECTION -->
+                    <section id="time-period" class="guide-section mb-5">
                         <div class="card shadow-sm">
-                            <div class="card-body">
-                                <h2 class="card-title text-info">
-                                    <i class="bi bi-info-circle me-2"></i>Understanding Results
+                            <div class="card-body p-4">
+
+                                <h2 class="card-title text-secondary mb-3">
+                                    <i class="bi bi-gear-fill me-2"></i>The Use Of Time Period
                                 </h2>
 
-                                <h5 class="mt-4">Prediction Result Explained</h5>
-                                <div class="row mb-4">
-                                    <div class="col-md-10">
-                                        <div class="alert alert-success">
-                                            <h6><strong>Landslide</strong></h6>
-                                            <p class="mb-0">Minimal landslide probability. Normal conditions with
-                                                low rainfall and stable soil.</p>
-                                        </div>
-                                        <div class="alert alert-warning">
-                                            <h6><strong>Non-landslide</strong></h6>
-                                            <p class="mb-0">Increased probability. Monitor conditions and prepare
-                                                precautionary measures.</p>
-                                        </div>
-                                    </div>
+                                <!-- Step-by-Step Process Title -->
+                                <h3 class="h5 fw-bold mb-3">Step-by-Step Process</h3>
 
+                                <!-- Step 1 -->
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="step-indicator circle bg-primary">1</div>
+                                    <div>
+                                        <h4 class="h6 fw-bold mb-1">The "Snapshot" Prediction</h4>
+                                        <p class="mb-0 text-muted">First, our AI system takes a "snapshot" of all
+                                            current
+                                            conditions (rainfall, soil, slope) to calculate the landslide risk for one
+                                            specific
+                                            moment in time.</p>
+                                    </div>
                                 </div>
 
+                                <!-- Step 2 -->
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="step-indicator circle bg-success">2</div>
+                                    <div>
+                                        <h4 class="h6 fw-bold mb-1">Checking Every Hour</h4>
+                                        <p class="mb-0 text-muted">To forecast over a time range (e.g., 6 hours), the
+                                            system runs
+                                            a snapshot prediction for <strong>every single hour</strong> in that period.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Step 3 -->
+                                <div class="d-flex align-items-start mb-4">
+                                    <div class="step-indicator circle" style="background-color: #f59e0b;">3</div>
+                                    <div>
+                                        <h4 class="h6 fw-bold mb-1">Identifying the Moment of Highest Confidence</h4>
+                                        <p class="text-muted mb-2">At each hourly check, our model provides two key
+                                            pieces of information:</p>
+                                        <ul class="text-muted small">
+                                            <li><strong>A Prediction:</strong> Either "Landslide" or "No Landslide".
+                                            </li>
+                                            <li><strong>A Confidence Score:</strong> A percentage telling us how certain
+                                                the model is about its prediction.</li>
+                                        </ul>
+                                        <p class="text-muted mb-0">Our system is designed for safety, so it reviews all
+                                            the hourly checks and shows you the <strong>single highest "Landslide"
+                                                confidence score</strong> it found. This ensures you are always alerted
+                                            to the moment of peak danger.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Example Box (REVISED) -->
+                                <!-- <div class="bg-light border rounded p-3">
+                                    <h4 class="h6 fw-bold">An Example in Action: A 6-Hour Forecast</h4>
+                                    <p class="small text-muted mb-2">If you request a forecast for the 6 hours ending at
+                                        9:00 AM, here's what the system does internally:</p>
+                                    <ul class="list-unstyled small text-muted">
+                                        <li>3:00 AM: Predicts "No Landslide" (85% confidence). 
+                                           
+                                        <li>4:00 AM: Predicts "No Landslide" (75% confidence). 
+                                          
+                                        <li>5:00 AM: Predicts "No Landslide" (60% confidence ). 
+                                           
+                                        <li>6:00 AM: Predicts "Landslide" with <strong>65% confidence</strong>.</li>
+                                        <li><strong class="text-danger">7:00 AM: Predicts "Landslide" with 85%
+                                                confidence. (Peak Confidence)</strong></li>
+                                        <li>8:00 AM: Predicts "Landslide" with <strong>70% confidence</strong>.</li>
+                                        <li>9:00 AM: Predicts "Landslide" with <strong>60% confidence</strong>.</li>
+                                    </ul>
+                                    <hr>
+                                    <p class="small mb-0"><strong>The Final Result You See:</strong> The system will
+                                        report a peak landslide confidence of <strong>85%</strong> for this time period.
+                                    </p>
+                                </div> -->
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Understanding Results Section -->
+                    <section id="understanding-results" class="guide-section mb-5">
+                        <div class="card shadow-sm">
+                            <div class="card-body p-4">
+                                <h2 class="card-title text-info mb-3">
+                                    <i class="bi bi-info-circle me-2"></i>Understanding Results
+                                </h2>
+                                <h5 class="mt-4">Prediction Result Explained</h5>
+                                <div class="row mb-4">
+                                    <div class="col-lg-6">
+                                        <div class="alert alert-danger"><strong>Landslide Predicted:</strong> A high
+                                            probability of a landslide event. Take immediate precautions.</div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="alert alert-success"><strong>No Landslide Predicted:</strong>
+                                            Conditions are currently stable with low probability.</div>
+                                    </div>
+                                </div>
                                 <h5 class="mt-4">Contributing Factors</h5>
                                 <div class="table-responsive">
-                                    <table class="table table-striped">
-                                        <thead>
+                                    <table class="table table-striped table-hover">
+                                        <thead class="table-dark">
                                             <tr>
                                                 <th>Factor</th>
                                                 <th>Description</th>
@@ -280,75 +369,76 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><i class="bi bi-droplet-fill text-primary me-2"></i>Rainfall
+                                                <td><i
+                                                        class="bi bi-cloud-rain-heavy-fill text-primary me-2"></i>Rainfall
                                                 </td>
-                                                <td>Cumulative rainfall (mm) and intensity (mm/hr)</td>
-                                                <td>Higher values increase landslide risk</td>
+                                                <td>Cumulative rainfall (mm) and intensity.</td>
+                                                <td>High values significantly increase risk.</td>
+                                            </tr>
                                             </tr>
                                             <tr>
-                                                <td><i class="bi bi-moisture text-success me-2"></i>Soil Moisture
-                                                </td>
-                                                <td>Percentage of water content in soil at 100-200cm depth</td>
-                                                <td>Saturated soil is more prone to landslides</td>
+                                                <td><i class="bi bi-moisture text-success me-2"></i>Soil Moisture</td>
+                                                <td>Water content in the soil (%).</td>
+                                                <td>Saturated soil is less stable.</td>
                                             </tr>
                                             <tr>
-                                                <td><i class="bi bi-mountain text-warning me-2"></i>Slope</td>
-                                                <td>Angle of terrain in degrees</td>
-                                                <td>Steeper slopes have higher risk</td>
+                                                <td><i class="bi bi-triangle-half text-warning me-2"></i>Slope</td>
+                                                <td>Angle of the terrain in degrees.</td>
+                                                <td>Steeper slopes have higher risk.</td>
                                             </tr>
                                             <tr>
-                                                <td><i class="bi bi-layers text-info me-2"></i>Soil Type</td>
-                                                <td>Composition and characteristics of soil</td>
-                                                <td>Clay soils are more susceptible</td>
+                                                <td><i class="bi bi-layers-fill text-info me-2"></i>Soil Type</td>
+                                                <td>Composition and characteristics of the soil.</td>
+                                                <td>Clay-heavy soils are more susceptible.</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
                     <!-- Dashboard Features Section -->
-                    <div id="dashboard" class="guide-section mb-5">
+                    <section id="dashboard" class="guide-section mb-5">
                         <div class="card shadow-sm">
-                            <div class="card-body">
-                                <h2 class="card-title text-primary">
+                            <div class="card-body p-4">
+                                <h2 class="card-title text-primary mb-3">
                                     <i class="bi bi-speedometer2 me-2"></i>Dashboard Features
                                 </h2>
-                                <p>The dashboard provides comprehensive system monitoring and historical analysis.
-                                </p>
-
+                                <p>The dashboard provides comprehensive system monitoring and historical analysis.</p>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h5>Key Metrics</h5>
-                                        <ul>
-                                            <li><strong>Historical Landslide Occurrences: </strong> Yearly and monthly landslide count</li>
-                                            <li><strong>Map for landslide occurrences:</strong> Locates where landslide occur based on historical data </li>
-                                            <li><strong>Regions with most landslide occurences:</strong> Displays regions where landslides mostly occurred</li>
-                                            
+                                        <h5 class="mt-4">Key Metrics</h5>
+                                        <ul class="list-styled">
+                                            <li><strong>Historical Occurrences:</strong> Yearly/monthly landslide
+                                                counts.</li>
+                                            <li><strong>Geospatial Map:</strong> Location of past landslide events.</li>
+                                            <li><strong>Regional Hotspots:</strong> Regions with the highest frequency
+                                                of landslides.</li>
                                         </ul>
                                     </div>
                                     <div class="col-md-6">
-                                        <h5>Charts & Analysis</h5>
-                                        <ul>
-                                            <li><strong>Soil Vulnerability Type:</strong> The count of each soil type which causes landslide</li>
-                                            <li><strong>Slope Type:</strong> Types of slope in degrees and their relation to landslide occurrences</li>
-                                            
+                                        <h5 class="mt-4">Charts & Analysis</h5>
+                                        <ul class="list-styled">
+                                            <li><strong>Soil Vulnerability:</strong> Count of landslides per soil type.
+                                            </li>
+                                            <li><strong>Slope Analysis:</strong> Relation of slope angle to landslide
+                                                occurrences.</li>
+
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
                     <!-- FAQ Section -->
-                    <div id="faq" class="guide-section mb-5">
+                    <section id="faq" class="guide-section mb-5">
                         <div class="card shadow-sm">
                             <div class="card-body">
-                                <h2 class="card-title text-secondary">
+                                <h2 class="card-title text-secondary mb-3">
                                     <i class="bi bi-question-circle me-2"></i>Frequently Asked Questions
                                 </h2>
-
                                 <div class="accordion" id="faqAccordion">
                                     <div class="accordion-item">
                                         <h2 class="accordion-header">
@@ -421,11 +511,12 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
+
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
 
     <!-- Bootstrap JS -->
@@ -435,7 +526,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 
-    <script src="javascript/navbar.js"></script>
+    <script src="../javascript/navbar.js"></script>
 </body>
 
 </html>

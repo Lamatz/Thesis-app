@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landslide Risk Prediction</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Bootstrap Icons CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Mapbox GL JS CSS -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css" rel="stylesheet">
+    <!-- Tempus Dominus Styles -->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.9.4/dist/css/tempus-dominus.min.css"
+        crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/redesigned_style.css">
+    <link rel="stylesheet" href="../css/navbar-style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark ">
+        <div class="container">
+            <a class="navbar-brand d-flex justify-content-center align-items-center href">
+                <!-- <i class="fas fa-mountain me-2"></i>Two Steps Ahead -->
+                <img src="../icons/thesis-logo-v2-try1.png" alt="logo">Two Steps Ahead
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto d-flex gap-3">
+                    <li class="nav-item">
+                        <a class="nav-link " href="index.html"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i
+                                class="fa-solid fa-map-location-dot me-1"></i></i>
+                            Dynamic Map</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="user-guide-page.html"><i class="fa-solid fa-circle-info me-1"></i>
+                            User Guide</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard-page.html"><i class="bi bi-grid-1x2-fill me-1"></i></i>
+                            Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="training-page.html"><i class="bi bi-diagram-3-fill me-1"></i></i>
+                            Training Result</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- END OF NAVBAR -->
+
+
+    <div class="container-fluid ">
+        <div class="row">
+
+            <!-- =================================== -->
+            <!-- == LEFT CONTROL PANEL (col-4) == -->
+            <!-- =================================== -->
+            <div class="col-lg-4 col-md-5 p-0">
+                <div class="control-panel">
+                    <h3 class="app-title text-center py-3">Landslide Prediction</h3>
+
+                    <!-- Card 1: Location Search -->
+                    <div class="card mb-3">
+                        <div class="card-header card-header-blue">
+                            <i class="fas fa-search me-2"></i> Location Search
+                        </div>
+                        <div class="card-body">
+                            <div class="input-group">
+                                <input type="text" id="search-input" class="form-control"
+                                    placeholder="Search cities (e.g., Manila, Cebu)">
+                                <button class="btn btn-primary" type="button" id="search-btn-icon"><i
+                                        class="fas fa-search"></i></button>
+                            </div>
+                            <div id="suggestions" class="suggestions-container"></div>
+                            <small class="form-text text-muted mt-2 d-block">Or click anywhere on the map to select a
+                                location.</small>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Selected Location -->
+                    <div class="card mb-3">
+                        <div class="card-header card-header-red">
+                            <i class="fas fa-map-marker-alt me-2"></i> Selected Location
+                        </div>
+                        <div class="card-body" id="selected-location-body">
+                            <p><strong>Lat:</strong> <span id="loc-lat">N/A</span></p>
+                            <p><strong>Lng:</strong> <span id="loc-lng">N/A</span></p>
+                            <p><strong>Location:</strong> <span id="loc-name">No location selected.</span></p>
+                        </div>
+                    </div>
+
+                    <!-- MODIFIED: Forecast Settings Card -->
+                    <div class="card">
+                        <div class="card-header card-header-green">
+                            <i class="fas fa-sliders-h me-2"></i> Forecast Settings
+                        </div>
+                        <div class="card-body">
+
+                            <!-- DATE AND TIME INPUT -->
+                            <div class="mb-3">
+                                <label for="date-picker" class="form-label"><strong>Forecast Date &
+                                        Time:</strong>
+                                </label>
+
+
+                                <div id="pickers-wrapper" class="mb-3">
+
+                                    <!-- Overlay for disabled state -->
+                                    <div class="overlay" id="picker-overlay">
+                                        <div class="overlay-content">
+                                            <div class="overlay-icon">
+                                                <i class="fas fa-map-marker-alt"></i>
+                                            </div>
+                                            <div>Please select a location first</div>
+                                            <small class="text-muted">Click a location on the map</small>
+                                        </div>
+                                    </div>
+
+                                    <!-- TEMPUS DOMINUS style -->
+                                    <div class="row g-0">
+                                        <div class="input-group col" id="date-picker-container"
+                                            data-td-target-input="nearest" data-td-target-toggle="nearest">
+                                            <input id="forecast-date" type="text" class="form-control"
+                                                data-td-target="#date-picker-container" placeholder="Select a date "
+                                                readonly disabled />
+                                            <span class="input-group-text" data-td-target="#date-picker-container"
+                                                data-td-toggle="datetimepicker">
+                                                <i class="fa-solid fa-calendar"></i>
+                                            </span>
+                                        </div>
+                                        <div class="input-group col" id="hour-picker" data-td-target-input="nearest"
+                                            data-td-target-toggle="nearest">
+                                            <input id="hour-picker-input" type="text" class="form-control"
+                                                data-td-target="#hour-picker" placeholder="Select a time " readonly
+                                                disabled />
+                                            <span class="input-group-text" data-td-target="#hour-picker"
+                                                data-td-toggle="datetimepicker">
+                                                <i class="bi bi-clock"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- TEMPUS DOMINUS style -->
+
+
+
+                                    <!-- TIME PERIOD INPUT -->
+                                    <div class="my-3">
+                                        <label for="forecast-period" class="form-label"><strong>Time
+                                                Period:</strong></label>
+                                        <select class="form-select" id="forecast-period" disabled>
+                                            <option value="none" selected>24 Hours</option>
+                                            <option value="12_hours">12 Hours</option>
+                                            <option value="6_hours">6 Hours</option>
+                                            <option value="3_hours">3 Hours</option>
+                                        </select>
+                                    </div>
+
+
+                                </div>
+
+
+
+                            </div>
+
+
+                            <div class="visual-summary">
+                                <p><strong id="forecast-summary-text"></strong></p>
+                            </div>
+                            <div class="d-grid">
+                                <button id="predict-btn" class="btn btn-success"><i class="fas fa-chart-line me-2"></i>
+                                    Predict Landslide Risk</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Hidden inputs to store fetched data for prediction, keeps JS logic similar -->
+                    <div class="visually-hidden">
+                        <input type="text" id="slope" disabled>
+                        <input type="text" id="soil-type" disabled>
+                        <input type="text" id="soil-moisture" disabled>
+                        <input id="rainfall-3-hr" type="text" disabled>
+                        <input id="rainfall-6-hr" type="text" disabled>
+                        <input id="rainfall-12-hr" type="text" disabled>
+                        <input id="rain-intensity-3-hr" type="text" disabled>
+                        <input id="rain-intensity-6-hr" type="text" disabled>
+                        <input id="rain-intensity-12-hr" type="text" disabled>
+                        <input id="rainfall-1-day" type="text" disabled>
+                        <input id="rainfall-3-day" type="text" disabled>
+                        <input id="rainfall-5-day" type="text" disabled>
+                        <input id="rain-intensity-1-day" type="text" disabled>
+                        <input id="rain-intensity-3-day" type="text" disabled>
+                        <input id="rain-intensity-5-day" type="text" disabled>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================= -->
+            <!-- == MAP CONTAINER (col-8) == -->
+            <!-- ============================= -->
+            <main class="col-lg-8 col-md-7 p-0 ">
+                <div id="map"></div>
+            </main>
+
+        </div> <!-- End Main Row -->
+    </div> <!-- End Main Container -->
+
+    <!-- ========================= -->
+    <!-- == PREDICTION MODAL == -->
+    <!-- ========================= -->
+    <div id="prediction-modal" class="modal-container">
+        <div class="modal-content-custom">
+            <span class="close-btn" onclick="document.getElementById('prediction-modal').style.display='none'">×</span>
+            <h2>Prediction Result</h2>
+            <div id="modal-body"></div>
+            <button id="report-btn" class="btn btn-primary mt-3"><i class="far fa-file-alt me-2"></i> View Report
+                Summary</button>
+        </div>
+    </div>
+
+
+
+    <!-- ======================================================= -->
+    <!-- == THE REPORT SECTION WITH THIS ENTIRE BLOCK == -->
+    <!-- ======================================================= -->
+    <!-- This section only pops up when the user has made a prediction -->
+
+    <div class="container" id="report-summary-section" style="display: none;">
+        <h2 class="text-center mb-4 report-title">Prediction Report Summary</h2>
+        <div id="report-content">
+
+            <!-- Card: Report Details -->
+            <div class="card report-card mb-4">
+                <div class="card-header">
+                    <strong><i class="fas fa-info-circle me-2"></i>Report Details</strong>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Location Name:</strong> <span id="report-location-name">N/A</span></p>
+                            <p><strong>Coordinates:</strong> <span id="report-coords">N/A</span></p>
+                            <p><strong>Prediction Date:</strong> <span id="report-prediction-date">N/A</span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Prediction:</strong> <span id="report-prediction" class="fw-bold">N/A</span></p>
+                            <p><strong>Confidence:</strong> <span id="report-confidence" class="fw-bold">N/A</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <!-- Card: Environmental Variables -->
+                <div class="col-md-12">
+                    <div class="card report-card h-100 mb-4">
+                        <div class="card-header">
+                            <strong><i class="fas fa-mountain me-2"></i>Environmental Variables</strong>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Slope:</strong> <span id="report-slope">N/A</span></p>
+                            <p><strong>Soil Type:</strong> <span id="report-soil-type">N/A</span></p>
+                            <p><strong>Soil Moisture (%/day):</strong> <span id="report-soil-moisture">N/A</span></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card: Rainfall for Selected Period -->
+
+            </div>
+
+            <!-- Card: Rainfall Charts -->
+            <div class="card report-card mb-4">
+                <div class="card-header">
+                    <strong><i class="fas fa-chart-bar me-2"></i>Rainfall Analysis</strong>
+                </div>
+                <div class="card-body">
+
+                    <div class="row">
+                        <!-- THESE ARE THE 4 CANVAS IDs THE SCRIPT NEEDS -->
+                        <div class="col-md-6 mb-4">
+                            <h6>Past 12 Hours Cumulative Rainfall <p class="text-muted d-inline">(<span
+                                        class="chart-summary-text "></span>)</p>
+                            </h6>
+                            <canvas id="hourly-cumulative-chart"></canvas>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <h6>Past 12 Hours Rainfall Intensity <p class="text-muted d-inline">(<span
+                                        class="chart-summary-text "></span>)</p>
+                            </h6>
+                            <canvas id="hourly-intensity-chart"></canvas>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Past 5 Days Cumulative Rainfall (mm)</h6>
+                            <canvas id="daily-cumulative-chart"></canvas>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Past 5 Days Average Intensity (mm/hr)</h6>
+                            <canvas id="daily-intensity-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card: Detailed Description -->
+            <div class="card report-card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <strong><i class="fas fa-pen me-2"></i>Detailed Description (Optional)</strong>
+                    <button id="generate-report-btn" class="btn btn-secondary">Generate AI Report</button>
+                </div>
+                <div class="card-body">
+                    <div id="report-detailed-description" class="form-control" contenteditable="true"
+                        aria-placeholder="Summarize findings, observations, and recommendations here..."></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons Row -->
+        <div class="text-center">
+            <button id="reset-btn" class="btn btn-danger btn-lg"><i class="fas fa-trash-alt me-2"></i>Reset All</button>
+            <button id="download-pdf-btn" class="btn btn-info btn-lg ms-2"><i class="fas fa-file-pdf me-2"></i>Download
+                Report (PDF)</button>
+        </div>
+
+        <button id="scrollTopBtn" title="Go to top"><i class="fa-solid fa-arrow-up"></i></button>
+    </div>
+
+    <!-- BOOTSTRAP JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"
+        integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK"
+        crossorigin="anonymous"></script>
+
+    <!-- Tempus Dominus JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.9.4/dist/js/tempus-dominus.min.js"
+        crossorigin="anonymous"></script>
+
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- Chart.js for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- === ADDITION: jsPDF and html2canvas for PDF download === -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- Markdown-to-HTML Library -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- NAVBAR JS -->
+    <script src="../javascript/navbar.js"></script>
+
+    <!-- Mapbox GL JS -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js"></script>
+
+    <!-- INITIALIZATION OF Tempus Dominus JS -->
+    <script src="../javascript/forecast-setting-TD.js"></script>
+
+
+    <!--====== YOU SHOULD EITHER COMMENT OUT THE ORIGINAL OR THE TEMPUS DOMINUS ======
+    ====== CHOOSE EITHER THE CLASSIC STYLE OR THE TEMPUS DOMINUS ====== -->
+    <!-- Your custom script -->
+    <!-- <script src="../javascript/redesigned_script.js"></script> -->
+    <!-- Your custom script (This USES THE TEMPUS DOMINUS)-->
+    <script src="../javascript/redesigned_script-TD.js"></script>
+
+    <!-- Javascript for the forecast settings -->
+    <script src="../javascript/forecast-setting.js"></script>
+
+</body>
+
+</html>
