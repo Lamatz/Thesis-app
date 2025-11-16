@@ -479,7 +479,7 @@ def ultimate_debug_environment():
         "message": "Vercel Comprehensive Environment Report",
         "system_info": system_info,
         "request_details": request_details,
-        "environment_variables": environment_vars,
+        # "environment_variables": environment_vars,
         "file_system_tree": file_tree,
     }
 
