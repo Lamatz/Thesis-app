@@ -441,12 +441,6 @@ def ultimate_debug_environment():
         file_tree = {"error": f"Could not inspect file system: {e}"}
 
 
-    # --- 2. Environment Variables ---
-    # WARNING: This will expose ALL environment variables, including secrets.
-    # This is extremely useful for debugging but should be removed before
-    # sharing this endpoint publicly.
-    # environment_vars = dict(os.environ)
-
 
     # --- 3. Incoming Request Details ---
     # Inspect the request that triggered this function.
