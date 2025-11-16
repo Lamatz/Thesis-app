@@ -29,7 +29,7 @@ def index():
 
 @app.route("/test")
 def test():
-    return app.send_static_file('../home_v2.html')
+    return app.send_static_file('./../home_v2.html')
 
 # Add this new route for debugging purposes
 @app.route("/debug")
