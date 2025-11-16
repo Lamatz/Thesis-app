@@ -1,9 +1,13 @@
 {
-  "functions": {
-    "api/index.py": {
-      "includeFiles": "public/**"
+  "builds": [
+    {
+      "src": "api/index.py",
+      "use": "@vercel/python",
+      "config": {
+        "includeFiles": "public/**"
+      }
     }
-  },
+  ],
   "routes": [
     {
       "src": "/(.*)",
