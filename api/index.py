@@ -22,6 +22,30 @@ def index():
     return app.send_static_file('index.html')
 
 
+@app.route("/debug")
+def debug_environment():
+    # The path where your api/index.py is running
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # The parent directory (where 'public' should be)
+    parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
+
+    # The full path to the file we are trying to serve
+    target_file_path = os.path.join(parent_dir, 'public', 'index.html')
+
+    debug_info = {
+        "message": "Vercel Environment Inspection",
+        "current_directory_path": current_dir,
+        "current_directory_contents": os.listdir(current_dir),
+        "parent_directory_path": parent_dir,
+        "parent_directory_contents": os.listdir(parent_dir),
+        "target_file_path": target_file_path,
+        "target_file_exists": os.path.exists(target_file_path)
+    }
+
+    # Return this info as a JSON response
+    return jsonify(debug_info)
+
 # --- Get the Geospatial Service URL from Environment Variables in Vercel ---
 GEOSPATIAL_API_URL = os.getenv("GEOSPATIAL_API_URL")
 
