@@ -113,7 +113,7 @@ async function updateLocationInfo(lat, lng) {
     // --- 4. Fetch data from APIs in parallel ---
     const locationPromise = fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
         .then(res => res.json());
-    const dataPromise = fetch(`/api/get_location_data?lat=${lat}&lon=${lng}`)
+    const dataPromise = fetch(`http://127.0.0.1:5000/get_location_data?lat=${lat}&lon=${lng}`)
         .then(res => res.json());
 
 
@@ -206,7 +206,7 @@ async function fetchWeatherData(lat, lon, date, time) {
 
     console.log(`Fetching weather for: ${lat}, ${lon}, on ${date} at ${time}`);
     try {
-        const response = await fetch(`/api/get_weather?latitude=${lat}&longitude=${lon}&date=${date}&time=${time}`);
+        const response = await fetch(`http://127.0.0.1:5000/get_weather?latitude=${lat}&longitude=${lon}&date=${date}&time=${time}`);
         const data = await response.json();
         if (data.error) throw new Error(data.error);
 
@@ -409,8 +409,10 @@ function populateReportSummary() {
 // MODIFIED: hideAndClearReportSummary to destroy all four charts
 function hideAndClearReportSummary() {
     const reportSection = document.getElementById("report-summary-section");
+    const mainSection = document.getElementById("main-cont");
     if (reportSection) {
         reportSection.style.display = "none";
+        mainSection.style.display = "flex"
         document.getElementById("report-detailed-description").value = "";
         if (hourlyCumulativeChart) hourlyCumulativeChart.destroy();
         if (hourlyIntensityChart) hourlyIntensityChart.destroy();
@@ -442,7 +444,7 @@ async function getSearchSuggestions(query) {
     }
 
     try {
-        const response = await fetch(`/api/search_locations?query=${query}`);
+        const response = await fetch(`http://127.0.0.1:5000/search_locations?query=${query}`);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
 
@@ -742,7 +744,7 @@ predictBtn.addEventListener("click", async () => {
     // --- 2. API Call ---
     console.log("Sending for prediction:", requestData);
     try {
-        const response = await fetch("/api/predict", {
+        const response = await fetch("http://127.0.0.1:5000/predict", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(requestData)
@@ -893,7 +895,7 @@ Do you wish to proceed?`;
 
 
 
-        const response = await fetch("/api/generate_report", {
+        const response = await fetch("http://127.0.0.1:5000/generate_report", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(requestData)
@@ -973,6 +975,10 @@ let scrollTopButton = document.getElementById("scrollTopBtn");
 
 // When the user clicks on the button, scroll to the top of the document smoothly
 scrollTopButton.addEventListener("click", function () {
+    
+    // In order to make the scroll smoother i have to find a way to first make the main content
+    // show and then wait for the scroll to go to the top and then thats when you make the 
+    //report section disappear
     
     document.getElementById("report-sect").style.display="none";
     document.getElementById("main-cont").style.display = "flex";

@@ -93,7 +93,8 @@ h6 {
 .app-title,
 .report-title {
     font-weight: 600;
-    color: var(--text-secondary);
+    /* color: var(--text-secondary); */
+    color: #8B4513;
 }
 
 .report-title {
@@ -147,7 +148,7 @@ h6 {
     width: 400px;
     /* width: 100%; */
     background-color: var(--background-1);
-    padding: 0 20px 20px;
+    padding: 10px 20px;
     overflow-y: auto;
     box-shadow: 2px 0 10px var(--shadow-color);
     border-right: 1px solid var(--border-color);
@@ -535,9 +536,6 @@ h6 {
 
 /* Small devices (phones, less than 576px) */
 @media (max-width: 575.98px) {
-    .report-title {
-        font-size: 1.5rem;
-    }
 
     .card-header strong {
         font-size: 1rem;
@@ -571,13 +569,6 @@ h6 {
 
         /* 260 px at 320 width screen size */
     }
-
-
-    .mobile-panel-handle{
-        /* transform: none !important; */
-        /* transition: none; */
-    }
-
 
 }
 

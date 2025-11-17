@@ -26,6 +26,9 @@
     /* Layout */
     --navbar-height: 61px;
 }
+*{
+    box-sizing: border-box;
+}
 
 /* 2. BASE & TYPOGRAPHY */
 
@@ -85,7 +88,7 @@ h5, h6 {
 
 /* 3. HERO SECTION */
 .hero-section {
-    min-height: 100vh;
+    /* min-height: 100vh; */
     padding-top: 20px;
     display: flex;
     align-items: center;
@@ -105,6 +108,14 @@ h5, h6 {
 @keyframes gradient-shift {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
+}
+
+.page-content{
+    display: flex;
+    justify-content:space-between;
+    flex-direction: column;
+    min-height: 100vh;
+
 }
 
 
@@ -178,8 +189,8 @@ footer {
 /* For tablets and smaller devices */
 @media (max-width: 991.98px) {
     .hero-section {
-        min-height: auto;
-        padding-top: 120px;
+        /* min-height: auto; */
+        padding-top: 40px;
         padding-bottom: 60px;
         text-align: center;
     }
