@@ -562,12 +562,11 @@ h6 {
 /* Small devices (phones, less than 576px) */
 @media (max-width: 450px) {
        #controlPanel {
- 
         width: calc(100% - 60px);
+    }
 
-        /* width: 260px; */
-
-        /* 260 px at 320 width screen size */
+    .control-panel{
+        padding-bottom: 60px !important;
     }
 
 }

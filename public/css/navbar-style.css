@@ -1,103 +1,150 @@
-    /* === VARIABLES & BASIC SETUP === */
-        :root {
-            --primary-brown: #8B4513;
-            --secondary-brown: #A0522D;
-            --light-brown: #D2B48C;
-            --dark-brown: #5C4033;
-        }
+/* === VARIABLES & BASIC SETUP === */
+:root {
+    --primary-brown: #8B4513;
+    --secondary-brown: #A0522D;
+    --light-brown: #D2B48C;
+    --dark-brown: #5C4033;
+}
 
-        html {
-            height: 100%;
-        }
+html {
+    height: 100%;
+}
 
-        /* The dynamic padding will be set by JS, but this is a good fallback */
-        body {
-            padding-top: 61px; 
-        }
+/* The dynamic padding will be set by JS, but this is a good fallback */
+body {
+    padding-top: 61px;
+}
 
-        /* === NAVBAR POSITIONING & ANIMATION === */
-        #mainNavbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            transition: transform 0.3s ease-in-out;
-            z-index: 1051; /* Ensures navbar is on top */
-        }
+/* === NAVBAR POSITIONING & ANIMATION === */
+#mainNavbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    min-height: 61px;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1051;
+    /* Ensures navbar is on top */
+}
 
-        #mainNavbar.navbar--hidden {
-            transform: translateY(-100%);
-        }
+#mainNavbar.navbar--hidden {
+    transform: translateY(-100%);
+}
 
-        /* === VISUAL POLISH & UX === */
-        #mainNavbar {
-            background: linear-gradient(to right, var(--dark-brown), var(--primary-brown));
-            /* A softer, more modern shadow */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            /* A subtle bottom border for separation */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        /* Using higher specificity (#mainNavbar) to avoid !important */
-        #mainNavbar .navbar-brand {
-            font-weight: 700;
-            color: #fff;
-        }
+/* === VISUAL POLISH & UX === */
+#mainNavbar {
+    background: linear-gradient(to right, var(--dark-brown), var(--primary-brown));
+    /* A softer, more modern shadow */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    /* A subtle bottom border for separation */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-        #mainNavbar .navbar-brand img {
-            /* Constrain the logo's height */
-            max-height: 40px;
-            margin-right: 10px;
-            /* Keeps the image from stretching */
-            object-fit: contain;
-        }
+/* Using higher specificity (#mainNavbar) to avoid !important */
+#mainNavbar .navbar-brand {
+    font-weight: 700;
+    color: #fff;
+}
 
-        #mainNavbar .nav-link {
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.85); /* A slightly softer white */
-            position: relative; /* Needed for the underline effect */
-            transition: color 0.3s ease;
-            padding: 0.5rem 0.75rem; /* Standard Bootstrap padding */
-            margin-bottom: 0px; /* Give some space for the underline effect */
-        }
+#mainNavbar .navbar-brand img {
+    /* Constrain the logo's height */
+    max-height: 40px;
+    margin-right: 10px;
+    /* Keeps the image from stretching */
+    object-fit: contain;
+}
 
-        /* --- Hover and Focus States --- */
-        #mainNavbar .nav-link:hover,
-        #mainNavbar .nav-link:focus {
-            color: #fff;
-        }
+#mainNavbar .nav-link {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    /* A slightly softer white */
+    position: relative;
+    /* Needed for the underline effect */
+    transition: color 0.3s ease;
+    padding: 0.5rem 0.75rem;
+    /* Standard Bootstrap padding */
+    margin-bottom: 0px;
+    /* Give some space for the underline effect */
+}
 
-        /* Add a subtle underline effect on hover */
-        #mainNavbar .nav-link::after {
-            content: '';
-            position: absolute;
-             bottom: -1px; /* Position the line below the link */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 2px;
-            background-color: var(--light-brown);
-            transition: width 0.3s ease-in-out;
-        }
+/* --- Hover and Focus States --- */
+#mainNavbar .nav-link:hover,
+#mainNavbar .nav-link:focus {
+    color: #fff;
+}
 
-        #mainNavbar .nav-link:hover::after,
-        #mainNavbar .nav-link:focus::after {
-            width: 80%; /* Animate the underline to 80% width */
-        }
+/* Add a subtle underline effect on hover */
+#mainNavbar .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    /* Position the line below the link */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: var(--light-brown);
+    transition: width 0.3s ease-in-out;
+}
 
-        /* --- Active State Styling --- */
-        #mainNavbar .nav-link.active {
-            color: #fff;
-            font-weight: 700;
-        }
+#mainNavbar .nav-link:hover::after,
+#mainNavbar .nav-link:focus::after {
+    width: 80%;
+    /* Animate the underline to 80% width */
+}
 
-        /* Make the underline permanently visible for the active link */
-        #mainNavbar .nav-link.active::after {
-            width: 80%;
-        }
-        
-        /* Example content styling */
-        .content {
-            padding: 2rem;
-            min-height: 200vh; /* Make the page long enough to scroll */
-            background-color: #fdfaf6;
-        }
+/* --- Active State Styling --- */
+#mainNavbar .nav-link.active {
+    color: #fff;
+    font-weight: 700;
+}
+
+/* Make the underline permanently visible for the active link */
+#mainNavbar .nav-link.active::after {
+    width: 80%;
+}
+
+
+
+@media (max-width: 1200px) and (min-width: 992px) {
+
+    #mainNavbar .nav-link {
+        font-size: 12px;
+    }
+
+    #mainNavbar .navbar-brand span {
+        font-size: 16px;
+    }
+
+
+
+}
+
+@media (max-width: 425px) {
+
+    #mainNavbar .navbar-brand span {
+        /* font-size: 14px; */
+        font-size: 16px;
+    }
+
+    #mainNavbar .navbar-brand img {
+        /* max-height: 20px; */
+        width: 70px !important;
+        margin-right: 0px;
+    }
+
+}
+
+
+@media (max-width: 319.89px) {
+
+    #mainNavbar .navbar-brand span {
+        font-size: 14px;
+        /* font-size: 16px; */
+    }
+
+    #mainNavbar .navbar-brand img {
+        /* max-height: 20px; */
+        width: 60px !important;
+    }
+
+}
