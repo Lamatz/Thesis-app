@@ -11,7 +11,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let selectedYear = null;
     let selectedMonth = null;
 
-    mapboxgl.accessToken = 'pk.eyJ1IjoibGFtYXR6IiwiYSI6ImNtZDczb3pyNDA1am8ya3M4czB3bjVocXIifQ.tNJchBN53I2HcuIGXJMmTQ';
+    mapboxgl.accessToken = 'pk.eyJ1IjoibGFtYXR6IiwiYSI6ImNtb3NvYXV2NTAxOHoydnMzMXU3MHQ4bzAifQ.gidqy6ZXkO2m856LR7oJow';
+    // mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
     const philippinesBounds = [[116.0, 4.0], [127.0, 21.0]];
 
     map = new mapboxgl.Map({
